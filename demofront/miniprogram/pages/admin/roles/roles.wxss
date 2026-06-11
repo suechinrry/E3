@@ -14,3 +14,20 @@
   font-size: 26rpx;
 }
 .perm-name { margin-left: 12rpx; color: #555; }
+.save-area {
+  padding: 30rpx;
+  text-align: center;
+}
+.btn-primary {
+  width: 100%;
+  padding: 24rpx 0;
+  background: #1a7cee;
+  border-radius: 16rpx;
+  font-size: 32rpx;
+  color: #fff;
+  border: none;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

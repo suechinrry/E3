@@ -20,7 +20,22 @@ Page({
     this.setData({ [`user.${field}`]: e.detail.value })
   },
   onSave() {
-    wx.showToast({ title: '保存成功（mock）', icon: 'success' })
+    const { user } = this.data
+    if (!user.name || !user.name.trim()) {
+      wx.showToast({ title: '姓名不能为空', icon: 'none' })
+      return
+    }
+    if (user.phone && !/^1\d{10}$/.test(user.phone)) {
+      wx.showToast({ title: '请输入正确的手机号', icon: 'none' })
+      return
+    }
+    const app = getApp()
+    app.globalData.userInfo = { ...app.globalData.userInfo, ...user }
+    this.setData({
+      user: { ...app.globalData.userInfo },
+      avatarText: user.name ? user.name.charAt(0) : '?'
+    })
+    wx.showToast({ title: '保存成功', icon: 'success' })
   },
   onLogout() {
     wx.showModal({

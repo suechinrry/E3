@@ -1,16 +1,19 @@
 <view class="page">
-  <block wx:for="{{roles}}" wx:key="id">
+  <block wx:for="{{roles}}" wx:key="id" wx:for-item="role">
     <view class="card">
-      <view class="role-header" bindtap="toggleExpand" data-id="{{item.id}}">
-        <text class="role-name">{{item.name}}</text>
-        <text class="expand-icon">{{expandedId === item.id ? '▼' : '▶'}}</text>
+      <view class="role-header" bindtap="toggleExpand" data-id="{{role.id}}">
+        <text class="role-name">{{role.name}}</text>
+        <text class="expand-icon">{{expandedId === role.id ? '▼' : '▶'}}</text>
       </view>
-      <view class="perm-list" wx:if="{{expandedId === item.id}}">
-        <label class="perm-item" wx:for="{{allPermissions}}" wx:key="key" wx:if="{{key !== 'all'}}">
-          <checkbox value="{{item.key}}" checked="{{item.permissions.includes(item.key === 'all' ? 'all' : key)}}" bindchange="onPermChange" data-role="{{item.id}}" data-perm="{{key}}"/>
-          <text class="perm-name">{{item.name}}</text>
+      <view class="perm-list" wx:if="{{expandedId === role.id}}">
+        <label class="perm-item" wx:for="{{allPermissions}}" wx:key="key" wx:for-item="perm">
+          <checkbox value="{{perm.key}}" checked="{{role.permissions.includes('all') || role.permissions.includes(perm.key)}}" bindchange="onPermChange" data-role="{{role.id}}" data-perm="{{perm.key}}"/>
+          <text class="perm-name">{{perm.name}}</text>
         </label>
       </view>
     </view>
   </block>
+  <view class="save-area">
+    <button class="btn-primary" bindtap="onSaveAll">保存所有角色权限</button>
+  </view>
 </view>

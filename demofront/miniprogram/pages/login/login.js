@@ -12,6 +12,14 @@ Page({
   onPasswordInput(e) {
     this.setData({ password: e.detail.value })
   },
+  onQuickLogin(e) {
+    const { user, pwd } = e.currentTarget.dataset
+    this.setData({ username: user, password: pwd })
+    // 自动触发登录
+    wx.nextTick(() => {
+      this.onLogin()
+    })
+  },
   onLogin() {
     const { username, password } = this.data
     if (!username || !password) {

@@ -18,4 +18,34 @@
     </block>
   </view>
 </view>
+
+<!-- 新增/编辑部门表单弹窗 -->
+<view class="modal-mask" wx:if="{{showForm}}" bindtap="hideForm"></view>
+<view class="form-modal" wx:if="{{showForm}}">
+  <view class="modal-header">
+    <text class="modal-title">{{formTitle}}</text>
+    <text class="modal-close" bindtap="hideForm">✕</text>
+  </view>
+  <view class="modal-body">
+    <view class="input-group">
+      <text class="input-label">部门名称</text>
+      <input class="input-field" value="{{form.name}}" bindinput="onInputChange" data-field="name" placeholder="请输入部门名称" />
+    </view>
+    <view class="input-group">
+      <text class="input-label">负责人</text>
+      <input class="input-field" value="{{form.manager}}" bindinput="onInputChange" data-field="manager" placeholder="请输入负责人姓名" />
+    </view>
+    <view class="input-group">
+      <text class="input-label">上级部门</text>
+      <picker mode="selector" range="{{parentOptions}}" value="{{form.parentId === 0 ? 0 : 1}}" bindchange="onParentChange">
+        <view class="picker-field">{{form.parentId === 0 ? '无（顶级部门）' : '已选择'}}</view>
+      </picker>
+    </view>
+  </view>
+  <view class="modal-footer">
+    <button class="btn-cancel" bindtap="hideForm">取消</button>
+    <button class="btn-primary" bindtap="onSave">保存</button>
+  </view>
+</view>
+
 <tabBar activeTab="1"></tabBar>

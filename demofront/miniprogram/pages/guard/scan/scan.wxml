@@ -1,5 +1,5 @@
 <view class="page has-tabbar">
-  <view class="scan-area">
+  <view class="scan-area" wx:if="{{!showResult}}">
     <view class="scan-icon-frame">
       <view class="scan-icon">📷</view>
     </view>
@@ -20,7 +20,15 @@
       <view class="info-row"><text class="label">时间：</text><text>{{result.time}}</text></view>
     </view>
     <button class="btn-primary confirm-btn" wx:if="{{result.valid && !result.confirmed}}" bindtap="onConfirm">确认放行</button>
-    <view class="confirmed-tag" wx:if="{{result.confirmed}}">✅ 已放行</view>
+    <view class="confirmed-tag" wx:if="{{result.confirmed}}">
+      <text>✅ 已放行</text>
+    </view>
+    <view class="result-actions" wx:if="{{result.confirmed}}">
+      <button class="btn-primary" bindtap="onReset" style="margin-top:20rpx;">重新核验</button>
+    </view>
+    <view class="result-actions" wx:if="{{!result.valid}}">
+      <button class="btn-primary" bindtap="onReset" style="margin-top:20rpx;">重新核验</button>
+    </view>
   </view>
 </view>
 <tabBar activeTab="0"></tabBar>
