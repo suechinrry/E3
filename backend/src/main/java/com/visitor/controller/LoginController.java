@@ -10,8 +10,10 @@ import com.visitor.auth.JwtUtil;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
+@Slf4j
 @Tag(name = "认证管理")
 @RestController
 @RequestMapping("/auth")
@@ -28,6 +30,7 @@ public class LoginController {
     @Operation(summary = "账号密码登录（开发用）")
     @PostMapping("/login/bypass")
     public Result<LoginResp> loginByPass(@Valid @RequestBody LoginReq req) {
+        log.info(">>> 收到登录请求: username={}", req.getUsername());
         User user = userService.lambdaQuery()
                 .eq(User::getUsername, req.getUsername())
                 .eq(User::getPassword, req.getPassword())
@@ -44,6 +47,7 @@ public class LoginController {
                 user.getRole(), user.getPhone(),
                 user.getDepartmentId() != null ? null : null,
                 user.getCompany()));
+        log.info("<<< 登录成功: userId={}, role={}, name={}", user.getId(), user.getRole(), user.getName());
         return Result.success(resp);
     }
 

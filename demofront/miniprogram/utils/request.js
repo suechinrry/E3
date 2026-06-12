@@ -11,14 +11,15 @@ function request({ url, method = 'GET', data = {}, mockData = null }) {
   }
 
   const token = app.globalData.token || wx.getStorageSync('token')
-  const header = { 'Content-Type': 'application/json' }
+  const header = { 'Content-Type': 'application/json;charset=utf-8' }
   if (token) header['Authorization'] = 'Bearer ' + token
+  const body = (method === 'POST' || method === 'PUT') ? JSON.stringify(data) : data
 
   return new Promise((resolve, reject) => {
     wx.request({
       url: app.globalData.baseUrl + url,
       method,
-      data,
+      data: body,
       header,
       success(res) {
         if (res.data.code === 401) {

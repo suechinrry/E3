@@ -32,9 +32,9 @@ public class AppointmentService extends ServiceImpl<AppointmentMapper, Appointme
         LambdaQueryWrapper<Appointment> qw = new LambdaQueryWrapper<Appointment>()
                 .eq(Appointment::getHostId, hostId)
                 .eq(!"all".equals(status), Appointment::getStatus, status)
-                .ge(startDate != null, Appointment::getStartTime, startDate.atStartOfDay())
-                .le(endDate != null, Appointment::getStartTime, endDate.plusDays(1).atStartOfDay())
                 .orderByDesc(Appointment::getId);
+        if (startDate != null) qw.ge(Appointment::getStartTime, startDate.atStartOfDay());
+        if (endDate != null) qw.le(Appointment::getStartTime, endDate.plusDays(1).atStartOfDay());
         IPage<Appointment> p = page(new Page<>(page, size), qw);
         return new PageResult<>(p.getRecords(), p.getTotal(), page, size);
     }
@@ -82,11 +82,11 @@ public class AppointmentService extends ServiceImpl<AppointmentMapper, Appointme
     // --- 统计 ---
 
     public Map<String, Object> hostStats(int hostId, LocalDate startDate, LocalDate endDate) {
-        List<Appointment> list = lambdaQuery()
-                .eq(Appointment::getHostId, hostId)
-                .ge(startDate != null, Appointment::getStartTime, startDate.atStartOfDay())
-                .le(endDate != null, Appointment::getStartTime, endDate.plusDays(1).atStartOfDay())
-                .list();
+        LambdaQueryWrapper<Appointment> qw = new LambdaQueryWrapper<Appointment>()
+                .eq(Appointment::getHostId, hostId);
+        if (startDate != null) qw.ge(Appointment::getStartTime, startDate.atStartOfDay());
+        if (endDate != null) qw.le(Appointment::getStartTime, endDate.plusDays(1).atStartOfDay());
+        List<Appointment> list = baseMapper.selectList(qw);
         Map<String, Object> result = new LinkedHashMap<>();
         result.put("totalVisits", list.size());
         Map<String, Long> companyStats = new LinkedHashMap<>();
@@ -129,10 +129,10 @@ public class AppointmentService extends ServiceImpl<AppointmentMapper, Appointme
     }
 
     public Map<String, Object> visitorRecordStats(LocalDate startDate, LocalDate endDate) {
-        List<Appointment> list = lambdaQuery()
-                .ge(startDate != null, Appointment::getCreateTime, startDate.atStartOfDay())
-                .le(endDate != null, Appointment::getCreateTime, endDate.plusDays(1).atStartOfDay())
-                .list();
+        LambdaQueryWrapper<Appointment> qw = new LambdaQueryWrapper<Appointment>();
+        if (startDate != null) qw.ge(Appointment::getCreateTime, startDate.atStartOfDay());
+        if (endDate != null) qw.le(Appointment::getCreateTime, endDate.plusDays(1).atStartOfDay());
+        List<Appointment> list = baseMapper.selectList(qw);
         Map<String, Object> result = new LinkedHashMap<>();
         Map<String, Long> companyStats = new LinkedHashMap<>();
         Map<String, Long> deptStats = new LinkedHashMap<>();
