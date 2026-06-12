@@ -1,0 +1,74 @@
+<scroll-view class="page has-tabbar" scroll-y>
+  <view class="card">
+    <!-- 访客信息（自动填入，可修改） -->
+    <view class="section-label">来访人信息</view>
+    <view class="input-group">
+      <text class="input-label">姓名</text>
+      <input class="input-field" placeholder="请输入姓名" value="{{form.visitorName}}" bindinput="onFieldChange" data-field="visitorName" />
+    </view>
+    <view class="input-group">
+      <text class="input-label">手机号</text>
+      <input class="input-field" type="number" placeholder="请输入手机号" value="{{form.visitorPhone}}" bindinput="onFieldChange" data-field="visitorPhone" maxlength="11" />
+    </view>
+    <view class="input-group">
+      <text class="input-label">来访单位</text>
+      <input class="input-field" placeholder="请输入单位名称" value="{{form.company}}" bindinput="onFieldChange" data-field="company" />
+    </view>
+
+    <!-- 分隔 -->
+    <view class="divider"></view>
+
+    <!-- 被访人信息（手动输入 + 查询校验） -->
+    <view class="section-label">被访人信息</view>
+    <view class="input-group">
+      <text class="input-label">被访人姓名 *</text>
+      <input class="input-field" placeholder="请输入被访人姓名" value="{{form.hostName}}" bindinput="onFieldChange" data-field="hostName" />
+    </view>
+    <view class="input-group">
+      <text class="input-label">被访人手机号 *</text>
+      <input class="input-field" type="number" placeholder="请输入被访人手机号" value="{{form.hostPhone}}" bindinput="onFieldChange" data-field="hostPhone" maxlength="11" />
+    </view>
+    <view class="lookup-row">
+      <button class="lookup-btn" bindtap="onLookupHost" loading="{{lookingUp}}">查询被访人</button>
+      <view class="lookup-result" wx:if="{{hostChecked === 'ok'}}">
+        <text class="lookup-ok">✓ 已确认 {{hostCheckedName}}</text>
+      </view>
+      <view class="lookup-result" wx:if="{{hostChecked === 'fail'}}">
+        <text class="lookup-fail">✕ 未找到该被访人</text>
+      </view>
+    </view>
+
+    <!-- 分隔 -->
+    <view class="divider"></view>
+
+    <!-- 预约详情 -->
+    <view class="section-label">预约详情</view>
+    <view class="input-group">
+      <text class="input-label">来访事由</text>
+      <input class="input-field" placeholder="如：商务洽谈、技术交流" value="{{form.purpose}}" bindinput="onFieldChange" data-field="purpose" />
+    </view>
+    <view class="input-group">
+      <text class="input-label">访问人数</text>
+      <stepper class="stepper" min="1" max="20" value="{{form.visitorCount}}" bindchange="onCountChange"></stepper>
+    </view>
+    <view class="input-group">
+      <text class="input-label">车牌号（选填）</text>
+      <input class="input-field" placeholder="如：粤B12345" value="{{form.carPlate}}" bindinput="onFieldChange" data-field="carPlate" />
+    </view>
+    <view class="input-group">
+      <text class="input-label">到访时间</text>
+      <picker mode="date" value="{{form.date}}" bindchange="onDateChange">
+        <view class="picker-field">{{form.date || '请选择日期'}}</view>
+      </picker>
+    </view>
+    <view class="input-group">
+      <text class="input-label">备注（选填）</text>
+      <textarea class="textarea-field" placeholder="如有特殊需求请备注" value="{{form.remark}}" bindinput="onFieldChange" data-field="remark"></textarea>
+    </view>
+  </view>
+
+  <view class="submit-area">
+    <button class="btn-primary" bindtap="onSubmit" loading="{{submitting}}">提交预约</button>
+  </view>
+</scroll-view>
+<tabBar activeTab="0"></tabBar>

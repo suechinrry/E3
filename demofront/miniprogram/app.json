@@ -1,0 +1,31 @@
+{
+  "pages": [
+    "pages/login/login",
+    "pages/visitor/appoint/appoint",
+    "pages/visitor/records/records",
+    "pages/visitor/notices/notices",
+    "pages/host/visited/visited",
+    "pages/host/approve/approve",
+    "pages/host/helper/helper",
+    "pages/admin/employees/employees",
+    "pages/admin/departments/departments",
+    "pages/admin/approve/adApprove",
+    "pages/admin/stats/stats",
+    "pages/admin/system/system",
+    "pages/admin/roles/roles",
+    "pages/admin/admins/admins",
+    "pages/admin/holiday/holiday",
+    "pages/admin/notify-mgr/notify-mgr",
+    "pages/guard/scan/scan",
+    "pages/personal/profile/profile"
+  ],
+  "window": {
+    "navigationBarTextStyle": "white",
+    "navigationBarTitleText": "企业访客系统",
+    "navigationBarBackgroundColor": "#1a7cee",
+    "backgroundColor": "#f5f6fa"
+  },
+  "style": "v2",
+  "sitemapLocation": "sitemap.json",
+  "lazyCodeLoading": "requiredComponents"
+}

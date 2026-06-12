@@ -1,0 +1,51 @@
+<view class="page">
+  <view class="card">
+    <view class="flex-header">
+      <text class="section-title">管理员列表</text>
+      <button class="add-btn" bindtap="onAdd">+ 新增</button>
+    </view>
+    <block wx:for="{{list}}" wx:key="id">
+      <view class="list-item">
+        <view>
+          <text class="admin-name">{{item.name}}</text>
+          <view class="admin-meta">{{item.username}} · {{item.phone}}</view>
+        </view>
+        <view class="emp-actions">
+          <text class="action-btn" bindtap="onEdit" data-item="{{item}}">编辑</text>
+          <text class="action-btn action-del" bindtap="onDelete" data-id="{{item.id}}" wx:if="{{item.username !== 'admin'}}">删除</text>
+        </view>
+      </view>
+    </block>
+  </view>
+</view>
+
+<!-- 新增/编辑管理员表单弹窗 -->
+<view class="modal-mask" wx:if="{{showForm}}" bindtap="hideForm"></view>
+<view class="form-modal" wx:if="{{showForm}}">
+  <view class="modal-header">
+    <text class="modal-title">{{formTitle}}</text>
+    <text class="modal-close" bindtap="hideForm">✕</text>
+  </view>
+  <view class="modal-body">
+    <view class="input-group">
+      <text class="input-label">用户名</text>
+      <input class="input-field" value="{{form.username}}" bindinput="onInputChange" data-field="username" placeholder="请输入用户名" />
+    </view>
+    <view class="input-group">
+      <text class="input-label">{{editingId ? '新密码（留空不修改）' : '密码'}}</text>
+      <input class="input-field" password value="{{form.password}}" bindinput="onInputChange" data-field="password" placeholder="{{editingId ? '留空则不修改密码' : '请输入密码'}}" />
+    </view>
+    <view class="input-group">
+      <text class="input-label">姓名</text>
+      <input class="input-field" value="{{form.name}}" bindinput="onInputChange" data-field="name" placeholder="请输入姓名" />
+    </view>
+    <view class="input-group">
+      <text class="input-label">手机号</text>
+      <input class="input-field" type="number" value="{{form.phone}}" bindinput="onInputChange" data-field="phone" placeholder="请输入手机号" maxlength="11" />
+    </view>
+  </view>
+  <view class="modal-footer">
+    <button class="btn-cancel" bindtap="hideForm">取消</button>
+    <button class="btn-primary" bindtap="onSave">保存</button>
+  </view>
+</view>

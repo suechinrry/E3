@@ -1,0 +1,111 @@
+.page { height: 100vh; }
+
+/* 分区标题 */
+.section-label {
+  font-size: 26rpx;
+  font-weight: 600;
+  color: #888;
+  margin-bottom: 16rpx;
+  padding-left: 6rpx;
+  border-left: 5rpx solid #1a7cee;
+  padding-left: 14rpx;
+}
+.divider {
+  height: 2rpx;
+  background: #f0f2f5;
+  margin: 24rpx 0 20rpx;
+}
+
+/* 被访人查询 */
+.lookup-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 16rpx;
+  margin-top: 10rpx;
+}
+.lookup-btn {
+  background: #eef6ff;
+  color: #1a7cee;
+  font-size: 26rpx;
+  padding: 12rpx 28rpx;
+  border-radius: 10rpx;
+  border: 2rpx solid #d0e3ff;
+  font-weight: 500;
+}
+.lookup-result {
+  flex: 1;
+  min-width: 0;
+}
+.lookup-ok {
+  font-size: 26rpx;
+  color: #52c41a;
+  font-weight: 500;
+}
+.lookup-fail {
+  font-size: 26rpx;
+  color: #e74c3c;
+  font-weight: 500;
+}
+
+/* 表单元素 */
+.input-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20rpx;
+}
+.input-label {
+  font-size: 26rpx;
+  color: #555;
+  font-weight: 500;
+  margin-bottom: 8rpx;
+}
+.input-field {
+  height: 76rpx;
+  background: #f7f8fa;
+  border-radius: 12rpx;
+  padding: 0 24rpx;
+  font-size: 28rpx;
+  border: 2rpx solid #eceff3;
+  box-sizing: border-box;
+}
+
+/* 时间选择 */
+.picker-field {
+  height: 76rpx;
+  background: #f7f8fa;
+  border-radius: 12rpx;
+  padding: 0 24rpx;
+  font-size: 28rpx;
+  line-height: 76rpx;
+  color: #333;
+  border: 2rpx solid #eceff3;
+}
+
+/* 备注 */
+.textarea-field {
+  width: 100%;
+  height: 140rpx;
+  background: #f7f8fa;
+  border-radius: 12rpx;
+  padding: 16rpx 24rpx;
+  font-size: 28rpx;
+  box-sizing: border-box;
+  border: 2rpx solid #eceff3;
+}
+
+/* 提交 */
+.submit-area {
+  padding: 30rpx 30rpx 60rpx;
+}
+.btn-primary {
+  width: 100%;
+  padding: 28rpx 0;
+  background: linear-gradient(135deg, #1a7cee, #4facfe);
+  border-radius: 16rpx;
+  font-size: 32rpx;
+  font-weight: 600;
+  color: #fff;
+  border: none;
+  box-shadow: 0 6rpx 20rpx rgba(26,124,238,0.3);
+}

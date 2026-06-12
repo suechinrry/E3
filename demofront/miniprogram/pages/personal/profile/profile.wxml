@@ -1,0 +1,32 @@
+<view class="page has-tabbar">
+  <view class="avatar-area">
+    <view class="avatar-circle">{{avatarText}}</view>
+    <text class="user-name">{{user.name}}</text>
+    <text class="user-role">{{roleText}}</text>
+  </view>
+
+  <view class="card">
+    <view class="input-group">
+      <text class="input-label">姓名</text>
+      <input class="input-field" value="{{user.name}}" bindinput="onFieldChange" data-field="name"></input>
+    </view>
+    <view class="input-group">
+      <text class="input-label">手机号</text>
+      <input class="input-field" type="number" value="{{user.phone}}" bindinput="onFieldChange" data-field="phone"></input>
+    </view>
+    <view class="input-group" wx:if="{{user.role === 'visitor'}}">
+      <text class="input-label">所属公司</text>
+      <input class="input-field" value="{{user.company || ''}}" bindinput="onFieldChange" data-field="company"></input>
+    </view>
+    <view class="input-group" wx:if="{{user.role !== 'visitor'}}">
+      <text class="input-label">部门</text>
+      <input class="input-field" value="{{user.department || ''}}" bindinput="onFieldChange" data-field="department"></input>
+    </view>
+    <button class="btn-primary" bindtap="onSave">保存</button>
+  </view>
+
+  <view class="card logout-card">
+    <button class="btn-logout" bindtap="onLogout">退出登录</button>
+  </view>
+</view>
+<tabBar activeTab="2"></tabBar>

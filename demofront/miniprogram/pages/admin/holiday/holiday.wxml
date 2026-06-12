@@ -1,0 +1,48 @@
+<view class="page">
+  <view class="card">
+    <view class="flex-header">
+      <text class="section-title">2026年节假日</text>
+      <button class="add-btn" bindtap="onAdd">+ 新增</button>
+    </view>
+    <block wx:for="{{list}}" wx:key="id">
+      <view class="list-item">
+        <view>
+          <text class="holiday-name">{{item.name}}</text>
+          <view class="holiday-meta">{{item.date}} · {{item.type}}</view>
+        </view>
+        <text class="action-btn action-del" bindtap="onDelete" data-id="{{item.id}}">删除</text>
+      </view>
+    </block>
+  </view>
+</view>
+
+<!-- 新增节假日表单弹窗 -->
+<view class="modal-mask" wx:if="{{showForm}}" bindtap="hideForm"></view>
+<view class="form-modal" wx:if="{{showForm}}">
+  <view class="modal-header">
+    <text class="modal-title">新增节假日</text>
+    <text class="modal-close" bindtap="hideForm">✕</text>
+  </view>
+  <view class="modal-body">
+    <view class="input-group">
+      <text class="input-label">节日名称</text>
+      <input class="input-field" value="{{form.name}}" bindinput="onInputChange" data-field="name" placeholder="请输入节日名称" />
+    </view>
+    <view class="input-group">
+      <text class="input-label">日期</text>
+      <picker mode="date" value="{{form.date}}" bindchange="onDateChange">
+        <view class="picker-field">{{form.date || '请选择日期'}}</view>
+      </picker>
+    </view>
+    <view class="input-group">
+      <text class="input-label">类型</text>
+      <picker mode="selector" range="{{typeOptions}}" value="{{form.type === '法定' ? 0 : form.type === '公司' ? 1 : 2}}" bindchange="onTypeChange">
+        <view class="picker-field">{{form.type}}</view>
+      </picker>
+    </view>
+  </view>
+  <view class="modal-footer">
+    <button class="btn-cancel" bindtap="hideForm">取消</button>
+    <button class="btn-primary" bindtap="onSave">保存</button>
+  </view>
+</view>

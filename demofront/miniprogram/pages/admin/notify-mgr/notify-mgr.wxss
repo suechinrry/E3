@@ -1,0 +1,141 @@
+.page { padding-bottom: 40rpx; }
+.flex-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20rpx;
+}
+.section-title { font-size: 30rpx; font-weight: 500; }
+.add-btn {
+  background: #1a7cee; color: #fff; font-size: 24rpx;
+  padding: 6rpx 24rpx; border-radius: 10rpx; border: none;
+}
+.notify-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24rpx 0;
+  border-bottom: 2rpx solid #f0f0f0;
+}
+.notify-item:last-child { border-bottom: none; }
+.notify-info { flex: 1; }
+.notify-title { font-size: 28rpx; font-weight: 500; display: block; }
+.notify-time { font-size: 22rpx; color: #bbb; margin-top: 6rpx; display: block; }
+.notify-actions { display: flex; gap: 12rpx; }
+.action-btn {
+  font-size: 24rpx; color: #1a7cee;
+  padding: 6rpx 16rpx; border: 2rpx solid #1a7cee; border-radius: 8rpx;
+}
+.action-del { color: #ff4d4f; border-color: #ff4d4f; }
+
+/* 表单弹窗 */
+.modal-mask {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.5);
+  z-index: 100;
+}
+.form-modal {
+  position: fixed;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: 640rpx;
+  background: #fff;
+  border-radius: 20rpx;
+  z-index: 101;
+  overflow: hidden;
+}
+.detail-modal {
+  position: fixed;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: 660rpx;
+  max-height: 80vh;
+  background: #fff;
+  border-radius: 20rpx;
+  z-index: 101;
+  overflow-y: auto;
+}
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 30rpx;
+  border-bottom: 2rpx solid #f0f0f0;
+}
+.modal-title { font-size: 32rpx; font-weight: 600; }
+.modal-close { font-size: 36rpx; color: #999; padding: 10rpx; }
+.modal-body { padding: 30rpx; }
+.modal-body .input-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 24rpx;
+}
+.modal-body .input-label {
+  font-size: 26rpx;
+  color: #666;
+  margin-bottom: 10rpx;
+}
+.modal-body .input-field {
+  height: 76rpx;
+  background: #f5f6fa;
+  border-radius: 12rpx;
+  padding: 0 24rpx;
+  font-size: 28rpx;
+}
+.modal-body .textarea-field {
+  min-height: 200rpx;
+  background: #f5f6fa;
+  border-radius: 12rpx;
+  padding: 20rpx 24rpx;
+  font-size: 28rpx;
+  width: 100%;
+  box-sizing: border-box;
+}
+.modal-body .picker-field {
+  height: 76rpx;
+  background: #f5f6fa;
+  border-radius: 12rpx;
+  padding: 0 24rpx;
+  font-size: 28rpx;
+  line-height: 76rpx;
+  color: #333;
+}
+.modal-footer {
+  display: flex;
+  padding: 20rpx 30rpx 30rpx;
+  gap: 20rpx;
+  border-top: 2rpx solid #f0f0f0;
+}
+.btn-cancel {
+  flex: 1;
+  padding: 20rpx 0;
+  background: #f5f6fa;
+  border-radius: 12rpx;
+  font-size: 28rpx;
+  color: #666;
+  border: none;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.btn-primary {
+  flex: 2;
+  padding: 24rpx 0;
+  background: #1a7cee;
+  border-radius: 12rpx;
+  font-size: 28rpx;
+  color: #fff;
+  border: none;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* 详情样式 */
+.detail-title-text { font-size: 34rpx; font-weight: 600; display: block; }
+.detail-time { font-size: 24rpx; color: #bbb; display: block; margin-top: 10rpx; }
+.detail-divider { height: 2rpx; background: #f0f0f0; margin: 24rpx 0; }
+.detail-content { font-size: 28rpx; color: #555; line-height: 1.8; display: block; }

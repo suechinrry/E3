@@ -1,0 +1,44 @@
+<view class="login-container">
+  <view class="login-header">
+    <view class="logo-placeholder">
+      <text class="logo-text">访</text>
+    </view>
+    <text class="title">企业访客系统</text>
+    <text class="subtitle">智能访客管理平台</text>
+  </view>
+
+  <view class="login-form">
+    <view class="input-group">
+      <text class="input-label">用户名</text>
+      <input class="input-field" placeholder="请输入用户名" value="{{username}}" bindinput="onUsernameInput" />
+    </view>
+    <view class="input-group">
+      <text class="input-label">密码</text>
+      <input class="input-field" type="password" placeholder="请输入密码" value="{{password}}" bindinput="onPasswordInput" />
+    </view>
+
+    <button class="btn-primary login-btn" bindtap="onLogin" loading="{{loading}}">登 录</button>
+
+    <view class="demo-section">
+      <text class="demo-title">预置演示账号（点击快速填入）</text>
+      <view class="demo-accounts">
+        <view class="demo-item" bindtap="onQuickLogin" data-user="admin" data-pwd="admin123">
+          <text class="demo-role">管理员</text>
+          <text class="demo-info">admin / admin123</text>
+        </view>
+        <view class="demo-item" bindtap="onQuickLogin" data-user="zhangsan" data-pwd="123456">
+          <text class="demo-role">被访人</text>
+          <text class="demo-info">zhangsan / 123456</text>
+        </view>
+        <view class="demo-item" bindtap="onQuickLogin" data-user="visitor1" data-pwd="123456">
+          <text class="demo-role">访客</text>
+          <text class="demo-info">visitor1 / 123456</text>
+        </view>
+        <view class="demo-item" bindtap="onQuickLogin" data-user="guard" data-pwd="123456">
+          <text class="demo-role">门岗</text>
+          <text class="demo-info">guard / 123456</text>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>

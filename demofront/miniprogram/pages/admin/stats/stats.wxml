@@ -1,0 +1,99 @@
+<view class="page has-tabbar">
+  <!-- 概览卡片 -->
+  <view class="stats-grid">
+    <view class="stats-card blue">
+      <text class="stats-num">{{overview.todayAppointments || 0}}</text>
+      <text class="stats-label">今日预约</text>
+    </view>
+    <view class="stats-card orange">
+      <text class="stats-num">{{overview.pendingApprovals || 0}}</text>
+      <text class="stats-label">待审核</text>
+    </view>
+    <view class="stats-card green">
+      <text class="stats-num">{{overview.totalEmployees || 0}}</text>
+      <text class="stats-label">员工总数</text>
+    </view>
+    <view class="stats-card purple">
+      <text class="stats-num">{{overview.totalDepartments || 0}}</text>
+      <text class="stats-label">部门数</text>
+    </view>
+  </view>
+
+  <!-- 日期区间选择 -->
+  <view class="date-range-card">
+    <text class="section-title">时间区间统计</text>
+    <view class="date-pickers">
+      <picker mode="date" value="{{startDate}}" bindchange="onStartChange">
+        <view class="picker-field">{{startDate || '开始日期'}}</view>
+      </picker>
+      <text class="date-sep">至</text>
+      <picker mode="date" value="{{endDate}}" bindchange="onEndChange">
+        <view class="picker-field">{{endDate || '结束日期'}}</view>
+      </picker>
+      <button class="btn-query" bindtap="onQuery">查询</button>
+    </view>
+    <view class="quick-date-tags">
+      <text class="date-tag {{quickRange === 7 ? 'active' : ''}}" bindtap="onQuickDate" data-days="7">近7天</text>
+      <text class="date-tag {{quickRange === 30 ? 'active' : ''}}" bindtap="onQuickDate" data-days="30">近30天</text>
+      <text class="date-tag {{quickRange === 90 ? 'active' : ''}}" bindtap="onQuickDate" data-days="90">近90天</text>
+    </view>
+  </view>
+
+  <!-- 预约趋势 -->
+  <view class="card">
+    <view class="section-title">预约趋势</view>
+    <view class="chart-placeholder" wx:if="{{trend.length > 0}}">
+      <block wx:for="{{trend}}" wx:key="date">
+        <view class="bar-item">
+          <view class="bar" style="height: {{maxBar > 0 ? (item.count / maxBar) * 180 : 0}}rpx">
+            <text class="bar-val" wx:if="{{item.count > 0}}">{{item.count}}</text>
+          </view>
+          <text class="bar-label">{{item.date.length > 5 ? item.date.slice(5) : item.date}}</text>
+        </view>
+      </block>
+    </view>
+    <view class="empty-state" wx:else>暂无数据</view>
+  </view>
+
+  <!-- 来访单位统计 -->
+  <view class="card">
+    <view class="section-title">来访单位统计</view>
+    <block wx:if="{{companyRank.length > 0}}">
+      <view class="rank-list">
+        <block wx:for="{{companyRank}}" wx:key="name">
+          <view class="rank-item">
+            <text class="rank-index rank-{{index < 3 ? 'top' : ''}}">{{index + 1}}</text>
+            <text class="rank-name">{{item.name}}</text>
+            <view class="rank-bar-wrap">
+              <view class="rank-bar" style="width: {{maxCompany > 0 ? (item.count / maxCompany) * 100 : 0}}%"></view>
+            </view>
+            <text class="rank-count">{{item.count}}次</text>
+          </view>
+        </block>
+      </view>
+    </block>
+    <view class="empty-state" wx:else>暂无数据</view>
+  </view>
+
+  <!-- 员工部门统计 -->
+  <view class="card">
+    <view class="section-title">员工部门统计</view>
+    <block wx:if="{{deptRank.length > 0}}">
+      <view class="rank-list">
+        <block wx:for="{{deptRank}}" wx:key="name">
+          <view class="rank-item">
+            <text class="rank-index rank-{{index < 3 ? 'top' : ''}}">{{index + 1}}</text>
+            <text class="rank-name">{{item.name}}</text>
+            <view class="rank-bar-wrap">
+              <view class="rank-bar dept" style="width: {{maxDept > 0 ? (item.count / maxDept) * 100 : 0}}%"></view>
+            </view>
+            <text class="rank-count">{{item.count}}次</text>
+          </view>
+        </block>
+      </view>
+    </block>
+    <view class="empty-state" wx:else>暂无数据</view>
+  </view>
+</view>
+
+<tabBar activeTab="3"></tabBar>

@@ -1,0 +1,133 @@
+.page { padding-bottom: 40rpx; }
+
+.scan-area {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 80rpx 0 40rpx;
+}
+
+.scan-icon-frame {
+  width: 200rpx;
+  height: 200rpx;
+  background: #fff;
+  border-radius: 40rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 8rpx 40rpx rgba(26,124,238,0.15);
+  margin-bottom: 30rpx;
+}
+.scan-icon {
+  font-size: 80rpx;
+}
+
+.scan-tip {
+  font-size: 30rpx;
+  color: #666;
+  margin-bottom: 40rpx;
+}
+
+.scan-btn {
+  width: 400rpx;
+  font-size: 34rpx;
+}
+
+.manual-hint {
+  margin-top: 24rpx;
+  font-size: 26rpx;
+  color: #1a7cee;
+  text-decoration: underline;
+}
+
+.result-card {
+  margin-top: 20rpx;
+}
+
+.result-status {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16rpx;
+  padding: 24rpx;
+  border-radius: 12rpx;
+  margin-bottom: 20rpx;
+  font-size: 30rpx;
+  font-weight: 500;
+}
+.result-status.success { background: #f0fff5; color: #52c41a; }
+.result-status.fail { background: #fff0f0; color: #ff4d4f; }
+.result-icon { font-size: 40rpx; }
+
+.result-body {
+  margin-bottom: 24rpx;
+}
+.info-row {
+  display: flex;
+  margin-bottom: 10rpx;
+  font-size: 26rpx;
+  color: #555;
+}
+.info-row .label {
+  color: #999;
+  width: 100rpx;
+}
+
+.confirm-btn {
+  width: 100%;
+}
+.confirmed-tag {
+  text-align: center;
+  font-size: 28rpx;
+  color: #52c41a;
+  padding: 20rpx;
+}
+.result-actions {
+  padding-top: 10rpx;
+}
+
+/* 手动核验表单 */
+.manual-card {
+  margin-top: 20rpx;
+}
+.manual-card .section-title {
+  font-size: 30rpx;
+  font-weight: 600;
+  margin-bottom: 24rpx;
+}
+.input-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20rpx;
+}
+.input-label {
+  font-size: 26rpx;
+  color: #555;
+  font-weight: 500;
+  margin-bottom: 8rpx;
+}
+.input-field {
+  height: 76rpx;
+  background: #f7f8fa;
+  border-radius: 12rpx;
+  padding: 0 24rpx;
+  font-size: 28rpx;
+  border: 2rpx solid #eceff3;
+}
+.manual-actions {
+  display: flex;
+  gap: 20rpx;
+  margin-top: 30rpx;
+}
+.manual-actions .btn-cancel {
+  flex: 1;
+  padding: 22rpx 0;
+  background: #f5f6fa;
+  border-radius: 12rpx;
+  font-size: 28rpx;
+  color: #666;
+  border: none;
+}
+.manual-actions .btn-primary {
+  flex: 2;
+}

@@ -1,0 +1,54 @@
+.page { padding-bottom: 40rpx; }
+
+.record-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20rpx;
+}
+.record-company {
+  font-size: 32rpx;
+  font-weight: 600;
+}
+
+.info-row {
+  display: flex;
+  margin-bottom: 10rpx;
+  font-size: 26rpx;
+  color: #555;
+}
+.info-row .label {
+  color: #999;
+  width: 100rpx;
+}
+
+.record-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 24rpx;
+  margin-top: 24rpx;
+  padding-top: 24rpx;
+  border-top: 2rpx solid #f0f0f0;
+}
+
+.btn-approve, .btn-reject {
+  border: none;
+  font-size: 26rpx;
+  padding: 12rpx 40rpx;
+  border-radius: 10rpx;
+  color: #fff;
+}
+.btn-approve { background: #52c41a; }
+.btn-reject { background: #ff4d4f; }
+
+.greeting-area {
+  margin-top: 20rpx;
+  padding: 16rpx 20rpx;
+  background: #f0f8ff;
+  border-radius: 10rpx;
+}
+.greeting-text {
+  font-size: 24rpx;
+  color: #1a7cee;
+  line-height: 1.5;
+}

@@ -1,0 +1,12 @@
+<view class="page">
+  <block wx:for="{{list}}" wx:key="id">
+    <view class="card notice-card" bindtap="onDetail" data-item="{{item}}">
+      <view class="notice-header">
+        <text class="notice-title">{{item.title}}</text>
+        <text class="notice-time">{{item.createTime}}</text>
+      </view>
+      <text class="notice-desc">{{item.summary || item.content}}</text>
+    </view>
+  </block>
+  <view class="empty-state" wx:if="{{list.length === 0}}">暂无通知</view>
+</view>

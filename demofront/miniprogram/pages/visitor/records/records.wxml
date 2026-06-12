@@ -1,0 +1,57 @@
+<view class="page has-tabbar">
+  <view class="tabs">
+    <view class="tab {{currentTab === 'all' ? 'active' : ''}}" data-tab="all" bindtap="switchTab">全部</view>
+    <view class="tab {{currentTab === 'pending' ? 'active' : ''}}" data-tab="pending" bindtap="switchTab">待审核</view>
+    <view class="tab {{currentTab === 'approved' ? 'active' : ''}}" data-tab="approved" bindtap="switchTab">已通过</view>
+    <view class="tab {{currentTab === 'cancelled' ? 'active' : ''}}" data-tab="cancelled" bindtap="switchTab">已取消</view>
+  </view>
+
+  <block wx:for="{{list}}" wx:key="id">
+    <view class="card">
+      <view class="record-header">
+        <text class="record-company">{{item.company}}</text>
+        <text class="tag tag-{{item.status}}">{{statusMap[item.status]}}</text>
+      </view>
+      <view class="record-body">
+        <view class="info-row"><text class="label">访客：</text><text>{{item.visitorName}}</text></view>
+        <view class="info-row"><text class="label">被访人：</text><text>{{item.hostName}}</text></view>
+        <view class="info-row"><text class="label">事由：</text><text>{{item.purpose}}</text></view>
+        <view class="info-row"><text class="label">时间：</text><text>{{item.startTime}}</text></view>
+      </view>
+      <view class="record-actions" wx:if="{{item.status === 'pending'}}">
+        <button class="btn-cancel" bindtap="onCancel" data-id="{{item.id}}">撤销预约</button>
+      </view>
+      <view class="record-actions" wx:if="{{item.status === 'cancelled'}}">
+        <button class="btn-restore" bindtap="onRestore" data-id="{{item.id}}">恢复预约</button>
+      </view>
+      <view class="record-actions" wx:if="{{item.status === 'approved'}}">
+        <button class="btn-sm" bindtap="onShowQr" data-item="{{item}}">入场凭证</button>
+        <button class="btn-sm btn-outline" bindtap="onRebook" data-id="{{item.id}}">再次预约</button>
+      </view>
+
+      <!-- 二维码展示区 -->
+      <view class="qr-mini" wx:if="{{item.qrVisible && (item.status === 'approved' || item.status === 'confirmed')}}">
+        <image class="qr-image" src="{{item.qrBase64}}" mode="widthFix" show-menu-by-longpress="{{true}}"></image>
+        <view class="qr-actions">
+          <button class="btn-save-qr" bindtap="onSaveQr" data-id="{{item.id}}">保存到相册</button>
+          <text class="qr-hint">到访时出示给门岗扫码</text>
+        </view>
+        <text class="qr-close" bindtap="onHideQr" data-id="{{item.id}}">收起</text>
+      </view>
+      <view class="greeting-area" wx:if="{{item.greeting && item.status === 'approved'}}" bindtap="onViewGreeting" data-item="{{item}}">
+        <text class="greeting-icon">💬</text>
+        <text class="greeting-text">点击查看迎接话术</text>
+      </view>
+    </view>
+  </block>
+
+  <view class="empty-state" wx:if="{{list.length === 0}}">暂无预约记录</view>
+
+  <view class="card" style="margin-top: 0;">
+    <view class="menu-item" bindtap="goNotices">
+      <text class="menu-text">📢 查看通知公告</text>
+      <text class="menu-arrow">›</text>
+    </view>
+  </view>
+</view>
+<tabBar activeTab="1"></tabBar>

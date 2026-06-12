@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "门岗核验",
+  "usingComponents": {
+    "tabBar": "/components/tabBar/tabBar"
+  }
+}

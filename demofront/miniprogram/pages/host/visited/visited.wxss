@@ -1,0 +1,105 @@
+.page { padding-bottom: 40rpx; }
+
+.stats-overview {
+  display: flex;
+  justify-content: space-around;
+  background: #fff;
+  padding: 30rpx;
+  margin: 20rpx 30rpx;
+  border-radius: 16rpx;
+  box-shadow: 0 2rpx 12rpx rgba(0,0,0,0.06);
+}
+.stat-item {
+  text-align: center;
+}
+.stat-num {
+  display: block;
+  font-size: 40rpx;
+  font-weight: 600;
+  color: #1a7cee;
+}
+.stat-label {
+  font-size: 24rpx;
+  color: #999;
+  margin-top: 8rpx;
+}
+
+.section-title {
+  font-size: 30rpx;
+  font-weight: 500;
+  margin-bottom: 20rpx;
+  color: #333;
+}
+
+.record-name {
+  font-size: 28rpx;
+  font-weight: 500;
+}
+.record-company {
+  font-size: 26rpx;
+  color: #888;
+}
+.record-meta {
+  font-size: 24rpx;
+  color: #aaa;
+  margin-top: 8rpx;
+}
+
+/* AI 话术展示 */
+.greeting-box {
+  margin-top: 16rpx;
+  background: linear-gradient(135deg, #f0f8ff, #f8f4ff);
+  border-radius: 12rpx;
+  overflow: hidden;
+  border: 2rpx solid #e0e8ff;
+}
+.greeting-header {
+  padding: 14rpx 20rpx;
+  border-bottom: 2rpx solid #e8eef8;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.greeting-source {
+  font-size: 20rpx;
+  padding: 4rpx 14rpx;
+  border-radius: 20rpx;
+  font-weight: 500;
+}
+.greeting-source.ai   { background: #e6f7e6; color: #52c41a; }
+.greeting-source.mock { background: #fff7e6; color: #fa8c16; }
+.greeting-title {
+  font-size: 26rpx;
+  font-weight: 600;
+  color: #1a7cee;
+}
+.greeting-body {
+  padding: 16rpx 20rpx;
+}
+.greeting-line {
+  margin-bottom: 12rpx;
+}
+.greeting-line:last-child {
+  margin-bottom: 0;
+}
+.greeting-footer {
+  padding: 12rpx 20rpx;
+  border-top: 2rpx solid #e8eef8;
+  text-align: center;
+}
+.regenerate-link {
+  font-size: 24rpx;
+  color: #1a7cee;
+}
+.greeting-label {
+  display: block;
+  font-size: 22rpx;
+  color: #a0a8b4;
+  margin-bottom: 4rpx;
+}
+.greeting-value {
+  display: block;
+  font-size: 26rpx;
+  color: #444;
+  line-height: 1.5;
+}

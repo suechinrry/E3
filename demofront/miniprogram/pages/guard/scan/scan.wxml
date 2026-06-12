@@ -1,0 +1,48 @@
+<view class="page has-tabbar">
+  <view class="scan-area" wx:if="{{!showResult && !showManual}}">
+    <view class="scan-icon-frame">
+      <view class="scan-icon">📷</view>
+    </view>
+    <text class="scan-tip">请扫描访客的预约二维码</text>
+    <button class="btn-primary scan-btn" bindtap="onScan">扫 码 核 验</button>
+    <text class="manual-hint" bindtap="onShowManual">或手动核验（姓名+手机号）</text>
+  </view>
+
+  <!-- 手动核验表单 -->
+  <view class="card manual-card" wx:if="{{showManual && !showResult}}">
+    <view class="section-title">手动核验</view>
+    <view class="input-group">
+      <text class="input-label">访客姓名</text>
+      <input class="input-field" value="{{manualName}}" bindinput="onNameInput" placeholder="请输入访客姓名" />
+    </view>
+    <view class="input-group">
+      <text class="input-label">手机号</text>
+      <input class="input-field" type="number" value="{{manualPhone}}" bindinput="onPhoneInput" placeholder="请输入手机号" maxlength="11" />
+    </view>
+    <view class="manual-actions">
+      <button class="btn-cancel" bindtap="onHideManual">返回</button>
+      <button class="btn-primary" bindtap="onManualVerify">核 验</button>
+    </view>
+  </view>
+
+  <view class="card result-card" wx:if="{{showResult}}">
+    <view class="result-status {{result.valid ? 'success' : 'fail'}}">
+      <text class="result-icon">{{result.valid ? '✅' : '❌'}}</text>
+      <text class="result-msg">{{result.message}}</text>
+    </view>
+    <view class="result-body" wx:if="{{result.valid}}">
+      <view class="info-row"><text class="label">访客：</text><text>{{result.visitorName}}</text></view>
+      <view class="info-row"><text class="label">单位：</text><text>{{result.company}}</text></view>
+      <view class="info-row"><text class="label">被访人：</text><text>{{result.hostName}}</text></view>
+      <view class="info-row"><text class="label">时间：</text><text>{{result.time}}</text></view>
+    </view>
+    <button class="btn-primary confirm-btn" wx:if="{{result.valid && !result.confirmed}}" bindtap="onConfirm">确认放行</button>
+    <view class="confirmed-tag" wx:if="{{result.confirmed}}">
+      <text>✅ 已放行</text>
+    </view>
+    <view class="result-actions" wx:if="{{result.confirmed || !result.valid}}">
+      <button class="btn-primary" bindtap="onReset" style="margin-top:20rpx;">重新核验</button>
+    </view>
+  </view>
+</view>
+<tabBar activeTab="0"></tabBar>

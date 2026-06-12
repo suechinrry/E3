@@ -1,0 +1,150 @@
+.page { padding-bottom: 40rpx; }
+
+.tabs {
+  display: flex;
+  background: #fff;
+  padding: 0 30rpx;
+  border-bottom: 2rpx solid #f0f0f0;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+.tab {
+  padding: 24rpx 30rpx;
+  font-size: 28rpx;
+  color: #666;
+  position: relative;
+}
+.tab.active {
+  color: #1a7cee;
+  font-weight: 500;
+}
+.tab.active::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 30rpx;
+  right: 30rpx;
+  height: 4rpx;
+  background: #1a7cee;
+  border-radius: 2rpx;
+}
+
+.record-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20rpx;
+}
+.record-company {
+  font-size: 32rpx;
+  font-weight: 600;
+}
+
+.info-row {
+  display: flex;
+  margin-bottom: 10rpx;
+  font-size: 26rpx;
+  color: #555;
+}
+.info-row .label {
+  color: #999;
+  width: 120rpx;
+}
+
+.record-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 20rpx;
+  margin-top: 20rpx;
+  padding-top: 20rpx;
+  border-top: 2rpx solid #f0f0f0;
+}
+
+.btn-cancel {
+  background: none;
+  border: 2rpx solid #ff4d4f;
+  color: #ff4d4f;
+  font-size: 24rpx;
+  padding: 8rpx 24rpx;
+  border-radius: 8rpx;
+}
+
+.btn-restore {
+  background: #eef6ff;
+  color: #1a7cee;
+  font-size: 24rpx;
+  padding: 10rpx 28rpx;
+  border-radius: 8rpx;
+  border: 2rpx solid #d0e3ff;
+}
+
+.btn-sm {
+  background: #1a7cee;
+  color: #fff;
+  font-size: 24rpx;
+  padding: 8rpx 24rpx;
+  border-radius: 8rpx;
+  border: none;
+}
+
+.btn-outline {
+  background: #fff;
+  color: #1a7cee;
+  border: 2rpx solid #1a7cee;
+}
+
+.greeting-area {
+  display: flex;
+  align-items: center;
+  margin-top: 20rpx;
+  padding: 16rpx 20rpx;
+  background: #f0f8ff;
+  border-radius: 10rpx;
+  font-size: 24rpx;
+  color: #1a7cee;
+}
+.greeting-icon {
+  margin-right: 10rpx;
+}
+
+/* 二维码展示 */
+.qr-mini {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20rpx 0 10rpx;
+  border-top: 2rpx solid #f0f0f0;
+  margin-top: 16rpx;
+}
+.qr-image {
+  width: 360rpx;
+  border-radius: 12rpx;
+  border: 2rpx solid #e8ecf1;
+  background: #fff;
+}
+.qr-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6rpx;
+  margin-top: 16rpx;
+}
+.btn-save-qr {
+  background: #1a7cee;
+  color: #fff;
+  font-size: 24rpx;
+  padding: 12rpx 40rpx;
+  border-radius: 40rpx;
+  border: none;
+}
+.qr-hint {
+  font-size: 22rpx;
+  color: #888;
+  margin-top: 4rpx;
+}
+.qr-close {
+  font-size: 22rpx;
+  color: #1a7cee;
+  margin-top: 12rpx;
+}

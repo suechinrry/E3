@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "被访记录",
+  "usingComponents": {
+    "tabBar": "/components/tabBar/tabBar"
+  }
+}

@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "预约申请",
+  "usingComponents": {
+    "tabBar": "/components/tabBar/tabBar"
+  }
+}
