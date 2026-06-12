@@ -1,4 +1,5 @@
-const { login, roleHomeMap } = require('../../mock/user')
+const ds = require('../../utils/data-service')
+const { roleHomeMap } = require('../../mock/user')
 
 Page({
   data: {
@@ -19,16 +20,17 @@ Page({
       return
     }
     this.setData({ loading: true })
-    setTimeout(() => {
+    ds.login(username, password).then(res => {
       this.setData({ loading: false })
-      const userInfo = login(username, password)
-      if (userInfo) {
+      if (res.code === 200) {
+        const userInfo = res.data.user || res.data
+        userInfo.token = res.data.token
         getApp().setUserInfo(userInfo)
         wx.showToast({ title: '登录成功', icon: 'success' })
         wx.reLaunch({ url: roleHomeMap[userInfo.role] })
       } else {
-        wx.showToast({ title: '用户名或密码错误', icon: 'error' })
+        wx.showToast({ title: res.msg || '用户名或密码错误', icon: 'error' })
       }
-    }, 800)
+    })
   }
 })

@@ -1,7 +1,12 @@
-const { mockAdmins } = require('../../../mock/notification')
+const ds = require('../../../utils/data-service')
 
 Page({
-  data: { list: mockAdmins },
+  data: { list: [] },
+  onShow() {
+    ds.getAdmins().then(res => {
+      if (res.code === 200) this.setData({ list: res.data || [] })
+    })
+  },
   onAdd() {
     wx.showModal({ title: '新增管理员', content: '（对接后端后显示新增表单）\n用户名、密码、姓名、手机号', confirmText: '确定' })
   },
@@ -15,8 +20,10 @@ Page({
       title: '提示', content: '确定删除该管理员吗？',
       success: (res) => {
         if (res.confirm) {
-          this.setData({ list: this.data.list.filter(i => i.id !== id) })
-          wx.showToast({ title: '已删除', icon: 'success' })
+          ds.deleteAdmin(id).then(() => {
+            wx.showToast({ title: '已删除', icon: 'success' })
+            this.onShow()
+          })
         }
       }
     })

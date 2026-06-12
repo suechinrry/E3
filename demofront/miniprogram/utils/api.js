@@ -9,7 +9,7 @@ const API = {
   APPOINTMENT_MY: '/appointment/my',
   APPOINTMENT_CANCEL: (id) => `/appointment/${id}/cancel`,
   APPOINTMENT_REBOOK: (id) => `/appointment/${id}/rebook`,
-  APPOINTMENT_GREETING: (id) => `/appointment/${id}/greeting`,
+  APPOINTMENT_GREETING: (id) => `/ai/appointment/${id}/greeting`,
 
   // 被访人
   APPOINTMENT_HOST: '/appointment/host',
@@ -51,7 +51,7 @@ const API = {
 
   // 管理员 - 审核
   ADMIN_PENDING: '/admin/appointment/pending',
-  ADMIN_APPROVE: (id) => `/admin/appointment/${id}/approve`,
+  ADMIN_APPROVE: (id) => `/appointment/${id}/approve`,
 
   // 管理员 - 统计
   STATS_OVERVIEW: '/admin/stats/overview',

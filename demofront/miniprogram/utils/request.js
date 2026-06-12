@@ -1,7 +1,8 @@
 const app = getApp()
 
-function request({ url, method = 'GET', data = {}, isMock = true, mockData = null }) {
-  if (isMock) {
+function request({ url, method = 'GET', data = {}, mockData = null }) {
+  const useMock = app.globalData.useMock
+  if (useMock && mockData !== null) {
     return new Promise((resolve) => {
       setTimeout(() => {
         resolve({ code: 200, msg: 'success', data: mockData })
@@ -28,7 +29,7 @@ function request({ url, method = 'GET', data = {}, isMock = true, mockData = nul
         resolve(res.data)
       },
       fail(err) {
-        wx.showToast({ title: '网络异常', icon: 'none' })
+        wx.showToast({ title: '网络异常，请检查后端是否启动', icon: 'none' })
         reject(err)
       }
     })

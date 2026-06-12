@@ -1,7 +1,12 @@
-const { mockNotices } = require('../../../mock/notification')
+const ds = require('../../../utils/data-service')
 
 Page({
-  data: { list: mockNotices },
+  data: { list: [] },
+  onShow() {
+    ds.getNotificationList().then(res => {
+      if (res.code === 200) this.setData({ list: res.data || [] })
+    })
+  },
   onAdd() {
     wx.showModal({
       title: '发布通知', content: '（对接后端后显示表单）\n标题、内容、发布范围',
@@ -22,8 +27,10 @@ Page({
       title: '提示', content: '确定删除该通知吗？',
       success: (res) => {
         if (res.confirm) {
-          this.setData({ list: this.data.list.filter(i => i.id !== id) })
-          wx.showToast({ title: '已删除', icon: 'success' })
+          ds.deleteNotification(id).then(() => {
+            wx.showToast({ title: '已删除', icon: 'success' })
+            this.onShow()
+          })
         }
       }
     })

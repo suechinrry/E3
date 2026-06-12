@@ -1,4 +1,4 @@
-const { mockVerifyResult } = require('../../../mock/greeting')
+const ds = require('../../../utils/data-service')
 
 Page({
   data: {
@@ -18,16 +18,22 @@ Page({
   showMockResult() {
     this.setData({
       showResult: true,
-      result: { ...mockVerifyResult }
+      result: { visitorName: '模拟访客', company: '示例科技', hostName: '张三', status: 'approved' }
     })
   },
   onConfirm() {
-    wx.showLoading({ title: '确认中...' })
-    setTimeout(() => {
-      const result = { ...this.data.result, confirmed: true }
-      this.setData({ result })
-      wx.hideLoading()
-      wx.showToast({ title: '已确认放行', icon: 'success' })
-    }, 600)
+    const result = this.data.result
+    if (!result || !result.id) {
+      wx.showToast({ title: '请输入预约编号', icon: 'none' })
+      return
+    }
+    ds.verifyAppointment(result.id, 'confirmed').then(res => {
+      if (res.code === 200) {
+        this.setData({ result: { ...this.data.result, confirmed: true } })
+        wx.showToast({ title: '已确认放行', icon: 'success' })
+      } else {
+        wx.showToast({ title: res.msg || '核验失败', icon: 'none' })
+      }
+    })
   }
 })

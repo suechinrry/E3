@@ -1,7 +1,12 @@
-const { mockHolidays } = require('../../../mock/notification')
+const ds = require('../../../utils/data-service')
 
 Page({
-  data: { list: mockHolidays },
+  data: { list: [] },
+  onShow() {
+    ds.getHolidays().then(res => {
+      if (res.code === 200) this.setData({ list: res.data || [] })
+    })
+  },
   onAdd() {
     wx.showModal({
       title: '新增节假日', content: '（对接后端后显示新增表单）\n名称、日期、类型',
@@ -14,8 +19,10 @@ Page({
       title: '提示', content: '确定删除该节假日吗？',
       success: (res) => {
         if (res.confirm) {
-          this.setData({ list: this.data.list.filter(i => i.id !== id) })
-          wx.showToast({ title: '已删除', icon: 'success' })
+          ds.deleteHoliday(id).then(() => {
+            wx.showToast({ title: '已删除', icon: 'success' })
+            this.onShow()
+          })
         }
       }
     })

@@ -1,3 +1,4 @@
+const ds = require('../../../utils/data-service')
 const roleMap = { admin: '管理员', host: '被访人', visitor: '访客', guard: '门岗' }
 
 Page({
@@ -20,7 +21,9 @@ Page({
     this.setData({ [`user.${field}`]: e.detail.value })
   },
   onSave() {
-    wx.showToast({ title: '保存成功（mock）', icon: 'success' })
+    ds.updateProfile(this.data.user).then(res => {
+      wx.showToast({ title: res.code === 200 ? '保存成功' : '保存失败', icon: res.code === 200 ? 'success' : 'none' })
+    })
   },
   onLogout() {
     wx.showModal({

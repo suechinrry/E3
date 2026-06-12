@@ -2,7 +2,8 @@ App({
   globalData: {
     userInfo: null,
     token: '',
-    baseUrl: 'http://localhost:8080/api'
+    baseUrl: 'http://localhost:8080',
+    useMock: false
   },
   setUserInfo(user) {
     this.globalData.userInfo = user
