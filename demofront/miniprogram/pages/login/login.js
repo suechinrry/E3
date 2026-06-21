@@ -1,5 +1,11 @@
-const ds = require('../../utils/data-service')
-const { roleHomeMap } = require('../../mock/user')
+const { login } = require('../../utils/data-service')
+
+const roleHomeMap = {
+  visitor: '/pages/visitor/appoint/appoint',
+  host: '/pages/host/visited/visited',
+  admin: '/pages/admin/employees/employees',
+  guard: '/pages/guard/scan/scan'
+}
 
 Page({
   data: {
@@ -13,6 +19,13 @@ Page({
   onPasswordInput(e) {
     this.setData({ password: e.detail.value })
   },
+  onQuickLogin(e) {
+    const { user, pwd } = e.currentTarget.dataset
+    this.setData({ username: user, password: pwd })
+    wx.nextTick(() => {
+      this.onLogin()
+    })
+  },
   onLogin() {
     const { username, password } = this.data
     if (!username || !password) {
@@ -20,17 +33,20 @@ Page({
       return
     }
     this.setData({ loading: true })
-    ds.login(username, password).then(res => {
+    login(username, password).then(res => {
       this.setData({ loading: false })
       if (res.code === 200) {
-        const userInfo = res.data.user || res.data
-        userInfo.token = res.data.token
+        const { token, user } = res.data
+        const userInfo = { ...user, token }
         getApp().setUserInfo(userInfo)
         wx.showToast({ title: '登录成功', icon: 'success' })
-        wx.reLaunch({ url: roleHomeMap[userInfo.role] })
+        wx.reLaunch({ url: roleHomeMap[user.role] })
       } else {
         wx.showToast({ title: res.msg || '用户名或密码错误', icon: 'error' })
       }
+    }).catch(() => {
+      this.setData({ loading: false })
+      wx.showToast({ title: '登录失败，请检查网络', icon: 'error' })
     })
   }
 })

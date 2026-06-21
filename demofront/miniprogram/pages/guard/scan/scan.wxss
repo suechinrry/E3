@@ -62,6 +62,16 @@
 .result-body {
   margin-bottom: 24rpx;
 }
+.info-row {
+  display: flex;
+  margin-bottom: 10rpx;
+  font-size: 26rpx;
+  color: #555;
+}
+.info-row .label {
+  color: #999;
+  width: 100rpx;
+}
 
 .confirm-btn {
   width: 100%;
@@ -71,4 +81,53 @@
   font-size: 28rpx;
   color: #52c41a;
   padding: 20rpx;
+}
+.result-actions {
+  padding-top: 10rpx;
+}
+
+/* 手动核验表单 */
+.manual-card {
+  margin-top: 20rpx;
+}
+.manual-card .section-title {
+  font-size: 30rpx;
+  font-weight: 600;
+  margin-bottom: 24rpx;
+}
+.input-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20rpx;
+}
+.input-label {
+  font-size: 26rpx;
+  color: #555;
+  font-weight: 500;
+  margin-bottom: 8rpx;
+}
+.input-field {
+  height: 76rpx;
+  background: #f7f8fa;
+  border-radius: 12rpx;
+  padding: 0 24rpx;
+  font-size: 28rpx;
+  border: 2rpx solid #eceff3;
+}
+.manual-actions {
+  display: flex;
+  gap: 20rpx;
+  margin-top: 30rpx;
+}
+.manual-actions .btn-cancel {
+  flex: 1;
+  padding: 22rpx 0;
+  background: #f5f6fa;
+  border-radius: 12rpx;
+  font-size: 28rpx;
+  color: #666;
+  border: none;
+}
+.manual-actions .btn-primary {
+  flex: 2;
 }

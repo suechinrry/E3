@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 @Tag(name = "门岗核验")
@@ -45,6 +46,38 @@ public class GuardController {
         Map<String, Object> m = new LinkedHashMap<>();
         m.put("valid", valid);
         m.put("message", valid ? "核验通过，欢迎来访" : "预约未通过审核");
+        m.put("appointmentId", a.getId());
+        m.put("visitorName", a.getVisitorName());
+        m.put("company", a.getCompany());
+        m.put("hostName", a.getHostName());
+        m.put("time", a.getStartTime() + " - " + (a.getEndTime() != null ? a.getEndTime() : ""));
+        m.put("status", a.getStatus());
+        return Result.success(m);
+    }
+
+    @Operation(summary = "手动核验（按姓名+手机号查找预约）")
+    @PostMapping("/verify-by-name")
+    public Result<Map<String, Object>> verifyByName(@RequestBody Map<String, String> body) {
+        String name = body.get("visitorName");
+        String phone = body.get("visitorPhone");
+        if (name == null || name.isBlank() || phone == null || phone.isBlank()) {
+            return Result.error("请输入访客姓名和手机号");
+        }
+        // 查找该访客所有已通过的预约（按时间倒序取最新）
+        List<Appointment> list = appointmentService.lambdaQuery()
+                .eq(Appointment::getVisitorName, name.trim())
+                .eq(Appointment::getVisitorPhone, phone.trim())
+                .in(Appointment::getStatus, List.of("approved", "confirmed"))
+                .orderByDesc(Appointment::getStartTime)
+                .list();
+        if (list.isEmpty()) {
+            return Result.error("未找到该访客的有效预约，请核实姓名和手机号");
+        }
+        Appointment a = list.get(0);  // 最新一条
+        boolean valid = true;
+        Map<String, Object> m = new LinkedHashMap<>();
+        m.put("valid", valid);
+        m.put("message", "核验通过，欢迎来访");
         m.put("appointmentId", a.getId());
         m.put("visitorName", a.getVisitorName());
         m.put("company", a.getCompany());

@@ -5,9 +5,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Slf4j
 @Service
@@ -15,21 +13,27 @@ public class DeepSeekClient {
 
     private final String apiKey;
     private final String apiUrl;
+    private final String model;
     private final WebClient webClient;
 
     public DeepSeekClient(@Value("${deepseek.api-key}") String apiKey,
-                          @Value("${deepseek.api-url}") String apiUrl) {
+                          @Value("${deepseek.api-url}") String apiUrl,
+                          @Value("${deepseek.model}") String model) {
         this.apiKey = apiKey;
         this.apiUrl = apiUrl;
+        this.model = model;
         this.webClient = WebClient.create();
     }
 
+    /** 返回 Map 中包含 source 字段："ai" 表示 AI 生成，"mock" 表示模板兜底 */
     @SuppressWarnings("unchecked")
     public Map<String, String> generateGreeting(String visitorName, String company,
                                                  String purpose, String hostName) {
         if (apiKey == null || apiKey.isBlank()) {
-            log.info("DeepSeek API Key 未配置，返回默认话术");
-            return mockGreeting(visitorName, company, purpose, hostName);
+            log.warn("[AI] API Key 未配置，使用模板话术");
+            Map<String, String> result = mockGreeting(visitorName, company, purpose, hostName);
+            result.put("source", "mock");
+            return result;
         }
 
         String prompt = String.format(
@@ -40,8 +44,9 @@ public class DeepSeekClient {
                 visitorName, company, purpose, hostName);
 
         try {
+            log.info("[AI] 开始调用模型: model={}, visitor={}", model, visitorName);
             Map<String, Object> requestBody = new LinkedHashMap<>();
-            requestBody.put("model", "deepseek-chat");
+            requestBody.put("model", model);
             requestBody.put("messages", List.of(Map.of("role", "user", "content", prompt)));
             requestBody.put("temperature", 0.7);
 
@@ -59,22 +64,30 @@ public class DeepSeekClient {
                 if (choices != null && !choices.isEmpty()) {
                     Map<String, Object> message = (Map<String, Object>) choices.get(0).get("message");
                     String content = (String) message.get("content");
-                    return parseResult(content);
+                    Map<String, String> result = parseResult(content);
+                    result.put("source", "ai");
+                    log.info("[AI] ✅ 调用成功，话术已生成");
+                    return result;
                 }
             }
+            log.warn("[AI] 响应格式异常，回退模板");
         } catch (Exception e) {
-            log.error("调用DeepSeek API失败", e);
+            log.error("[AI] ❌ 调用失败: {}", e.getMessage());
         }
-        return mockGreeting(visitorName, company, purpose, hostName);
+        Map<String, String> result = mockGreeting(visitorName, company, purpose, hostName);
+        result.put("source", "mock");
+        return result;
     }
 
     @SuppressWarnings("unchecked")
     private Map<String, String> parseResult(String content) {
         try {
             com.fasterxml.jackson.databind.ObjectMapper mapper = new com.fasterxml.jackson.databind.ObjectMapper();
-            return mapper.readValue(content, Map.class);
+            Map<String, String> map = mapper.readValue(content, Map.class);
+            log.info("[AI] JSON解析成功");
+            return map;
         } catch (Exception e) {
-            log.warn("解析AI返回JSON失败，使用默认话术");
+            log.warn("[AI] 解析返回JSON失败，使用模板话术");
             return mockGreeting("访客", "来访单位", "访问", "被访人");
         }
     }

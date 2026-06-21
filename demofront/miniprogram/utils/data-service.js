@@ -8,10 +8,9 @@ const { mockNotices, mockAdmins, mockRoles, allPermissions, mockHolidays, mockSy
 const { mockOverview, mockTrend, mockCompanyRank, mockDeptRank, mockHostStats } = require('../mock/stats')
 const { mockGreeting, mockVerifyResult } = require('../mock/greeting')
 
-const app = getApp()
-
 function isMock() {
-  return app.globalData.useMock === true
+  const app = getApp()
+  return app && app.globalData && app.globalData.useMock === true
 }
 
 // ==================== 认证 ====================
@@ -82,6 +81,16 @@ function deleteDepartment(id) {
 
 // ==================== 预约 ====================
 
+function lookupHost(name, phone) {
+  if (isMock()) {
+    const found = mockEmployees.find(e => e.name === name && e.phone === phone)
+    return found
+      ? Promise.resolve({ code: 200, data: { id: found.id, name: found.name, departmentId: found.departmentId || 1 } })
+      : Promise.resolve({ code: 500, msg: '未找到该被访人' })
+  }
+  return request({ url: API.HOST_LOOKUP, method: 'POST', data: { name, phone } })
+}
+
 function getMyAppointments(page = 1, size = 10, status = 'all') {
   if (isMock()) {
     const list = status === 'all' ? mockAppointments : mockAppointments.filter(a => a.status === status)
@@ -98,6 +107,11 @@ function createAppointment(data) {
 function cancelAppointment(id) {
   if (isMock()) return Promise.resolve({ code: 200, msg: '预约已撤销' })
   return request({ url: API.APPOINTMENT_CANCEL(id), method: 'PUT' })
+}
+
+function restoreAppointment(id) {
+  if (isMock()) return Promise.resolve({ code: 200, msg: '预约已恢复' })
+  return request({ url: API.APPOINTMENT_RESTORE(id), method: 'PUT' })
 }
 
 function rebookAppointment(id) {
@@ -172,6 +186,14 @@ function deleteNotification(id) {
 
 // ==================== 门岗 ====================
 
+function verifyAppointmentByName(visitorName, visitorPhone) {
+  if (isMock()) {
+    const result = visitorName ? { ...mockVerifyResult, visitorName, message: '核验通过' } : { valid: false, message: '未找到' }
+    return Promise.resolve({ code: 200, data: result })
+  }
+  return request({ url: API.GUARD_VERIFY_BY_NAME, method: 'POST', data: { visitorName, visitorPhone } })
+}
+
 function verifyAppointment(qrCode) {
   if (isMock()) return Promise.resolve({ code: 200, data: { ...mockVerifyResult } })
   return request({ url: API.GUARD_VERIFY, method: 'POST', data: { qrCode } })
@@ -189,6 +211,11 @@ function getGreeting(appointmentId) {
   return request({ url: API.APPOINTMENT_GREETING(appointmentId) })
 }
 
+function regenerateGreeting(appointmentId) {
+  if (isMock()) return Promise.resolve({ code: 200, data: { ...mockGreeting, source: 'mock' } })
+  return request({ url: API.AI_REGENERATE(appointmentId), method: 'POST' })
+}
+
 function generateGreeting(appointmentId) {
   if (isMock()) return Promise.resolve({ code: 200, data: { ...mockGreeting } })
   return request({ url: API.AI_GREETING(appointmentId), method: 'POST' })
@@ -199,6 +226,15 @@ function generateGreeting(appointmentId) {
 function getAdminPending(page = 1, size = 10) {
   if (isMock()) return Promise.resolve({ code: 200, data: { list: adminPendingList, total: adminPendingList.length } })
   return request({ url: API.ADMIN_PENDING, data: { page, size } })
+}
+
+function getAllAppointments(page = 1, size = 100, status = 'all') {
+  if (isMock()) {
+    let list = adminPendingList
+    if (status !== 'all') list = list.filter(i => i.status === status)
+    return Promise.resolve({ code: 200, data: { list, total: list.length } })
+  }
+  return request({ url: API.ADMIN_APPOINTMENT, data: { page, size, status } })
 }
 
 function getOverview() {
@@ -248,6 +284,11 @@ function createAdmin(data) {
   return request({ url: API.ADMIN_CREATE, method: 'POST', data })
 }
 
+function updateAdmin(id, data) {
+  if (isMock()) return Promise.resolve({ code: 200, msg: '修改成功' })
+  return request({ url: API.ADMIN_UPDATE(id), method: 'PUT', data })
+}
+
 function deleteAdmin(id) {
   if (isMock()) return Promise.resolve({ code: 200, msg: '删除成功' })
   return request({ url: API.ADMIN_DELETE(id), method: 'DELETE' })
@@ -272,7 +313,8 @@ function deleteHoliday(id) {
 
 function getProfile() {
   if (isMock()) {
-    const user = app.globalData.userInfo || {}
+    const app = getApp()
+    const user = (app && app.globalData && app.globalData.userInfo) ? app.globalData.userInfo : {}
     return Promise.resolve({ code: 200, data: user })
   }
   return request({ url: API.USER_PROFILE_GET })
@@ -287,15 +329,15 @@ module.exports = {
   login,
   getEmployees, createEmployee, updateEmployee, deleteEmployee, batchEmployees,
   getDepartments, createDepartment, updateDepartment, deleteDepartment,
-  getMyAppointments, createAppointment, cancelAppointment, rebookAppointment,
+  lookupHost, getMyAppointments, createAppointment, cancelAppointment, restoreAppointment, rebookAppointment,
   getHostRecords, getHostStats, getPendingApprovals, approveAppointment, helperAppointment,
   getNotifications, getAdminNotifications, createNotification, updateNotification, deleteNotification,
-  verifyAppointment, confirmAppointment,
-  getGreeting, generateGreeting,
-  getAdminPending, getOverview, getTrend, getVisitorRecordStats,
+  verifyAppointment, verifyAppointmentByName, confirmAppointment,
+  getGreeting, generateGreeting, regenerateGreeting,
+  getAdminPending, getAllAppointments, getOverview, getTrend, getVisitorRecordStats,
   getSettings, updateSettings,
   getRoles, updateRole,
-  getAdmins, createAdmin, deleteAdmin,
+  getAdmins, createAdmin, updateAdmin, deleteAdmin,
   getHolidays, createHoliday, deleteHoliday,
   getProfile, updateProfile
 }

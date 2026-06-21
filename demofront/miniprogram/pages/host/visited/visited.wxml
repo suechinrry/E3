@@ -25,6 +25,31 @@
         </view>
         <text class="tag tag-{{item.status}}">{{statusMap[item.status]}}</text>
       </view>
+
+      <!-- AI 迎接话术 -->
+      <view class="greeting-box" wx:if="{{item.greetingText && item.status === 'approved'}}">
+        <view class="greeting-header">
+          <text class="greeting-title">🤖 接待建议</text>
+          <text class="greeting-source {{item.greetingSource === 'ai' ? 'ai' : 'mock'}}">{{item.greetingSource === 'ai' ? 'AI生成' : '模板生成'}}</text>
+        </view>
+        <view class="greeting-body">
+          <view class="greeting-line">
+            <text class="greeting-label">欢迎语</text>
+            <text class="greeting-value">{{item.greetingText}}</text>
+          </view>
+          <view class="greeting-line">
+            <text class="greeting-label">座位安排</text>
+            <text class="greeting-value">{{item.seatSuggestion}}</text>
+          </view>
+          <view class="greeting-line">
+            <text class="greeting-label">注意事项</text>
+            <text class="greeting-value">{{item.notes}}</text>
+          </view>
+        </view>
+        <view class="greeting-footer" bindtap="onRegenerate" data-id="{{item.id}}">
+          <text class="regenerate-link">🔄 重新生成</text>
+        </view>
+      </view>
     </block>
   </view>
 

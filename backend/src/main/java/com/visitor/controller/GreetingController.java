@@ -32,7 +32,7 @@ public class GreetingController {
     @Operation(summary = "生成/获取迎接话术")
     @PostMapping("/greeting/{appointmentId}")
     public Result<Map<String, String>> generate(@PathVariable Integer appointmentId) {
-        // 查已有话术
+        // 查已有话术，有就直接返回（除非强制重新生成）
         Greeting exist = greetingService.lambdaQuery()
                 .eq(Greeting::getAppointmentId, appointmentId)
                 .one();
@@ -40,25 +40,36 @@ public class GreetingController {
             return Result.success(Map.of(
                     "greeting", exist.getGreetingText(),
                     "seatSuggestion", exist.getSeatSuggestion(),
-                    "notes", exist.getNotes()
+                    "notes", exist.getNotes(),
+                    "source", "cached"
             ));
         }
+        return doGenerate(appointmentId);
+    }
 
+    @Operation(summary = "重新生成话术（强制调用AI）")
+    @PostMapping("/greeting/{appointmentId}/regenerate")
+    public Result<Map<String, String>> regenerate(@PathVariable Integer appointmentId) {
+        return doGenerate(appointmentId);
+    }
+
+    private Result<Map<String, String>> doGenerate(Integer appointmentId) {
         Appointment a = appointmentService.getById(appointmentId);
         if (a == null) return Result.error("预约不存在");
 
-        // 调用 AI 或 mock
         Map<String, String> result = deepSeekClient.generateGreeting(
                 a.getVisitorName(), a.getCompany(), a.getPurpose(), a.getHostName());
 
-        // 保存
-        Greeting g = new Greeting();
+        // 更新或新增话术记录
+        Greeting g = greetingService.lambdaQuery()
+                .eq(Greeting::getAppointmentId, appointmentId).one();
+        if (g == null) g = new Greeting();
         g.setAppointmentId(appointmentId);
         g.setGreetingText(result.get("greeting"));
         g.setSeatSuggestion(result.get("seatSuggestion"));
         g.setNotes(result.get("notes"));
         g.setStatus("completed");
-        greetingService.save(g);
+        greetingService.saveOrUpdate(g);
 
         return Result.success(result);
     }

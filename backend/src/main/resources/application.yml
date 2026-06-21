@@ -37,5 +37,6 @@ jwt:
   expiration: 86400000
 
 deepseek:
-  api-key: ""
-  api-url: https://api.deepseek.com/v1/chat/completions
+  api-key: "sk-byrAhNZCh4Ful3rvG7hQweeC2ze3cTD4p3QgBtsZmAtoZmZVWu3QKVpQ8ExGFfoj"
+  api-url: https://opencode.ai/zen/v1/chat/completions
+  model: deepseek-v4-flash-free

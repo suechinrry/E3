@@ -5,7 +5,7 @@
         <text class="notice-title">{{item.title}}</text>
         <text class="notice-time">{{item.createTime}}</text>
       </view>
-      <text class="notice-desc">{{item.summary}}</text>
+      <text class="notice-desc">{{item.summary || item.content}}</text>
     </view>
   </block>
   <view class="empty-state" wx:if="{{list.length === 0}}">暂无通知</view>

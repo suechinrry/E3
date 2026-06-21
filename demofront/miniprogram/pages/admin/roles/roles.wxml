@@ -1,15 +1,27 @@
 <view class="page">
-  <block wx:for="{{roles}}" wx:key="id">
-    <view class="card">
-      <view class="role-header" bindtap="toggleExpand" data-id="{{item.id}}">
-        <text class="role-name">{{item.name}}</text>
-        <text class="expand-icon">{{expandedId === item.id ? '▼' : '▶'}}</text>
+  <block wx:for="{{roles}}" wx:key="id" wx:for-item="role">
+    <view class="role-card">
+      <view class="role-header" bindtap="toggleExpand" data-id="{{role.id}}">
+        <view class="role-left">
+          <view class="role-icon" style="background: {{role.color}};">
+            <text>{{role.icon}}</text>
+          </view>
+          <view class="role-info">
+            <text class="role-name">{{role.name}}</text>
+            <text class="role-desc">{{role.desc}}</text>
+          </view>
+        </view>
+        <text class="expand-arrow">{{expandedId === role.id ? '▲' : '▼'}}</text>
       </view>
-      <view class="perm-list" wx:if="{{expandedId === item.id}}">
-        <label class="perm-item" wx:for="{{allPermissions}}" wx:key="key" wx:if="{{key !== 'all'}}">
-          <checkbox value="{{item.key}}" checked="{{item.permissions.includes(item.key === 'all' ? 'all' : key)}}" bindchange="onPermChange" data-role="{{item.id}}" data-perm="{{key}}"/>
-          <text class="perm-name">{{item.name}}</text>
-        </label>
+
+      <!-- 展开后显示权限范围 -->
+      <view class="perm-panel" wx:if="{{expandedId === role.id}}">
+        <block wx:for="{{role.routes}}" wx:key="label" wx:for-item="item">
+          <view class="route-item">
+            <text class="route-icon">{{item.icon}}</text>
+            <text class="route-label">{{item.label}}</text>
+          </view>
+        </block>
       </view>
     </view>
   </block>

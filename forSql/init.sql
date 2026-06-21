@@ -6,6 +6,9 @@
 CREATE DATABASE IF NOT EXISTS visitor_system DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 USE visitor_system;
 
+-- 对于已存在的数据库，执行以下语句添加 position 列
+-- ALTER TABLE sys_user ADD COLUMN position VARCHAR(50) NULL COMMENT '职位' AFTER department_id;
+
 -- -----------------------------------------------------------
 -- 1. 部门表
 -- -----------------------------------------------------------
@@ -32,6 +35,7 @@ CREATE TABLE sys_user (
   role          ENUM('admin','host','visitor','guard') NOT NULL COMMENT '角色',
   phone         VARCHAR(20)  NULL     COMMENT '手机号',
   department_id INT          NULL     COMMENT '部门ID',
+  position      VARCHAR(50)  NULL     COMMENT '职位',
   company       VARCHAR(100) NULL     COMMENT '所属公司（访客使用）',
   avatar        VARCHAR(255) NULL     COMMENT '头像URL',
   status        TINYINT      NOT NULL DEFAULT 1 COMMENT '状态 1启用 0停用',

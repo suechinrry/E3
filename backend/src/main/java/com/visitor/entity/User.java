@@ -18,6 +18,7 @@ public class User {
     private String role;
     private String phone;
     private Integer departmentId;
+    private String position;
     private String company;
     private String avatar;
     private Integer status;

@@ -36,7 +36,17 @@ public class UserController {
     @Operation(summary = "新增员工")
     @PostMapping
     public Result<Void> add(@RequestBody User user) {
+        // 前端可能不传 username/password，自动生成默认值
+        if (user.getUsername() == null || user.getUsername().isBlank()) {
+            user.setUsername(user.getPhone() != null ? user.getPhone() : "user_" + System.currentTimeMillis());
+        }
+        if (user.getPassword() == null || user.getPassword().isBlank()) {
+            user.setPassword("123456");
+        }
         user.setRole("host");
+        if (user.getStatus() == null) {
+            user.setStatus(1);
+        }
         userService.save(user);
         return Result.success("新增成功", null);
     }
@@ -45,6 +55,10 @@ public class UserController {
     @PutMapping("/{id}")
     public Result<Void> update(@PathVariable Integer id, @RequestBody User user) {
         user.setId(id);
+        // 修改时只更新非空字段，避免误清数据
+        if (user.getPassword() == null || user.getPassword().isBlank()) {
+            user.setPassword(null); // null 表示不修改密码
+        }
         userService.updateById(user);
         return Result.success("修改成功", null);
     }

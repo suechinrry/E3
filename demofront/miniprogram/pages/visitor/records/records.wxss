@@ -70,6 +70,15 @@
   border-radius: 8rpx;
 }
 
+.btn-restore {
+  background: #eef6ff;
+  color: #1a7cee;
+  font-size: 24rpx;
+  padding: 10rpx 28rpx;
+  border-radius: 8rpx;
+  border: 2rpx solid #d0e3ff;
+}
+
 .btn-sm {
   background: #1a7cee;
   color: #fff;
@@ -97,4 +106,45 @@
 }
 .greeting-icon {
   margin-right: 10rpx;
+}
+
+/* 二维码展示 */
+.qr-mini {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20rpx 0 10rpx;
+  border-top: 2rpx solid #f0f0f0;
+  margin-top: 16rpx;
+}
+.qr-image {
+  width: 360rpx;
+  border-radius: 12rpx;
+  border: 2rpx solid #e8ecf1;
+  background: #fff;
+}
+.qr-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6rpx;
+  margin-top: 16rpx;
+}
+.btn-save-qr {
+  background: #1a7cee;
+  color: #fff;
+  font-size: 24rpx;
+  padding: 12rpx 40rpx;
+  border-radius: 40rpx;
+  border: none;
+}
+.qr-hint {
+  font-size: 22rpx;
+  color: #888;
+  margin-top: 4rpx;
+}
+.qr-close {
+  font-size: 22rpx;
+  color: #1a7cee;
+  margin-top: 12rpx;
 }

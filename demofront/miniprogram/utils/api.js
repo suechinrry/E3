@@ -8,7 +8,9 @@ const API = {
   APPOINTMENT_CREATE: '/appointment',
   APPOINTMENT_MY: '/appointment/my',
   APPOINTMENT_CANCEL: (id) => `/appointment/${id}/cancel`,
+  APPOINTMENT_RESTORE: (id) => `/appointment/${id}/restore`,
   APPOINTMENT_REBOOK: (id) => `/appointment/${id}/rebook`,
+  HOST_LOOKUP: '/appointment/host/lookup',
   APPOINTMENT_GREETING: (id) => `/ai/appointment/${id}/greeting`,
 
   // 被访人
@@ -50,8 +52,9 @@ const API = {
   HOLIDAY_DELETE: (id) => `/admin/holiday/${id}`,
 
   // 管理员 - 审核
+  ADMIN_APPOINTMENT: '/admin/appointment',
   ADMIN_PENDING: '/admin/appointment/pending',
-  ADMIN_APPROVE: (id) => `/appointment/${id}/approve`,
+  ADMIN_APPROVE: (id) => `/admin/appointment/${id}/approve`,
 
   // 管理员 - 统计
   STATS_OVERVIEW: '/admin/stats/overview',
@@ -69,6 +72,7 @@ const API = {
 
   // 门岗
   GUARD_VERIFY: '/guard/verify',
+  GUARD_VERIFY_BY_NAME: '/guard/verify-by-name',
   GUARD_CONFIRM: (id) => `/guard/confirm/${id}`,
 
   // 个人资料
@@ -76,7 +80,8 @@ const API = {
   USER_PROFILE_UPDATE: '/user/profile',
 
   // AI
-  AI_GREETING: (id) => `/ai/greeting/${id}`
+  AI_GREETING: (id) => `/ai/greeting/${id}`,
+  AI_REGENERATE: (id) => `/ai/greeting/${id}/regenerate`
 }
 
 module.exports = API

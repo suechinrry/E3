@@ -2,6 +2,8 @@ package com.visitor.common.exception;
 
 import com.visitor.common.Result;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -24,9 +26,29 @@ public class GlobalExceptionHandler {
         return Result.error(400, msg);
     }
 
+    @ExceptionHandler(DataIntegrityViolationException.class)
+    public Result<Void> handleDataIntegrity(DataIntegrityViolationException e) {
+        log.error("数据完整性异常", e);
+        String msg = e.getMessage();
+        if (msg != null && msg.contains("Data too long")) {
+            return Result.error("输入内容过长，请缩短");
+        }
+        return Result.error("数据保存失败，请检查必填字段是否完整");
+    }
+
+    @ExceptionHandler(HttpMessageNotReadableException.class)
+    public Result<Void> handleJsonError(HttpMessageNotReadableException e) {
+        log.error("请求数据格式错误", e);
+        return Result.error(400, "请求数据格式错误，请检查输入内容");
+    }
+
     @ExceptionHandler(Exception.class)
     public Result<Void> handleException(Exception e) {
         log.error("系统异常", e);
-        return Result.error("系统繁忙，请稍后重试");
+        // 返回具体错误原因便于调试
+        String msg = e.getMessage();
+        if (msg == null) msg = "系统繁忙，请稍后重试";
+        if (msg.length() > 100) msg = msg.substring(0, 100);
+        return Result.error(msg);
     }
 }

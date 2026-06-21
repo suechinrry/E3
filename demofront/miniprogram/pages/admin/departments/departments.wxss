@@ -1,28 +1,244 @@
-.page { padding-bottom: 40rpx; }
-.flex-header {
+/* 页面头部 */
+.page-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 20rpx;
+  padding: 24rpx 30rpx 20rpx;
 }
-.section-title {
-  font-size: 30rpx;
-  font-weight: 500;
+.page-title {
+  font-size: 36rpx;
+  font-weight: 700;
+  color: #1a1a2e;
 }
 .add-btn {
-  background: #1a7cee;
+  background: linear-gradient(135deg, #1a7cee, #4facfe);
   color: #fff;
-  font-size: 24rpx;
-  padding: 6rpx 24rpx;
-  border-radius: 10rpx;
+  font-size: 26rpx;
+  padding: 12rpx 32rpx;
+  border-radius: 40rpx;
   border: none;
+  box-shadow: 0 4rpx 12rpx rgba(26,124,238,0.35);
+}
+
+/* 部门树 */
+.dept-tree {
+  padding: 0 24rpx 40rpx;
+}
+
+/* 部门卡片 */
+.dept-card {
+  background: #fff;
+  border-radius: 16rpx;
+  margin-bottom: 16rpx;
+  overflow: hidden;
+  box-shadow: 0 2rpx 12rpx rgba(0,0,0,0.04);
+}
+
+/* 部门行 */
+.dept-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24rpx 24rpx;
+  transition: background 0.2s;
+}
+.dept-row:active {
+  background: #f7f9fc;
+}
+.dept-left {
+  display: flex;
+  align-items: center;
+  flex: 1;
+  min-width: 0;
+}
+.dept-icon {
+  font-size: 36rpx;
+  margin-right: 16rpx;
+  flex-shrink: 0;
+}
+.dept-text {
+  min-width: 0;
 }
 .dept-name {
   font-size: 30rpx;
+  font-weight: 600;
+  color: #2c3e50;
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.dept-sub {
+  font-size: 23rpx;
+  color: #aab2bd;
+  margin-top: 4rpx;
+  display: block;
+}
+.dept-right {
+  display: flex;
+  align-items: center;
+  gap: 14rpx;
+  flex-shrink: 0;
+  margin-left: 16rpx;
+}
+
+/* 人数徽章 */
+.dept-badge {
+  background: #eef6ff;
+  border: 2rpx solid #c5ddff;
+  border-radius: 20rpx;
+  padding: 4rpx 16rpx;
+  font-size: 22rpx;
+  color: #1a7cee;
   font-weight: 500;
 }
-.dept-meta {
+
+/* 展开箭头 */
+.dept-arrow {
+  font-size: 20rpx;
+  color: #bbb;
+  width: 36rpx;
+  text-align: center;
+}
+
+/* 子部门区域 */
+.dept-children {
+  border-top: 2rpx solid #f0f2f5;
+  background: #fafbfc;
+}
+.child-row {
+  padding: 20rpx 24rpx 20rpx 32rpx;
+  border-bottom: 2rpx solid #f5f6f8;
+}
+.child-row:last-child {
+  border-bottom: none;
+}
+.child-left {
+  padding-left: 32rpx;
+}
+
+/* 操作图标 */
+.action-icon {
+  width: 44rpx;
+  height: 44rpx;
+  line-height: 44rpx;
+  text-align: center;
+  font-size: 28rpx;
+  color: #aaa;
+  border-radius: 50%;
+  background: #f5f6fa;
+}
+.action-icon.del {
+  color: #e74c3c;
+  background: #fdf2f2;
+}
+
+/* 一级部门操作栏 */
+.dept-footer {
+  display: flex;
+  gap: 28rpx;
+  padding: 14rpx 24rpx;
+  border-top: 2rpx solid #f0f2f5;
+}
+.action-link {
   font-size: 24rpx;
-  color: #999;
-  margin-top: 6rpx;
+  color: #1a7cee;
+  padding: 4rpx 0;
+}
+.action-link.del {
+  color: #e74c3c;
+}
+
+/* 空状态 */
+.empty-state {
+  text-align: center;
+  padding: 80rpx 0;
+  color: #bbb;
+  font-size: 28rpx;
+}
+
+/* ====== 弹窗 ====== */
+.modal-mask {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.45);
+  z-index: 100;
+}
+.form-modal {
+  position: fixed;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: 640rpx;
+  background: #fff;
+  border-radius: 20rpx;
+  z-index: 101;
+  overflow: hidden;
+}
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 30rpx;
+  border-bottom: 2rpx solid #f0f0f0;
+}
+.modal-title { font-size: 32rpx; font-weight: 600; }
+.modal-close { font-size: 36rpx; color: #999; padding: 10rpx; }
+.modal-body { padding: 30rpx; }
+.modal-body .input-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 24rpx;
+}
+.modal-body .input-label {
+  font-size: 26rpx;
+  color: #666;
+  margin-bottom: 10rpx;
+}
+.modal-body .input-field {
+  height: 76rpx;
+  background: #f5f6fa;
+  border-radius: 12rpx;
+  padding: 0 24rpx;
+  font-size: 28rpx;
+}
+.modal-body .picker-field {
+  height: 76rpx;
+  background: #f5f6fa;
+  border-radius: 12rpx;
+  padding: 0 24rpx;
+  font-size: 28rpx;
+  line-height: 76rpx;
+  color: #333;
+}
+.modal-footer {
+  display: flex;
+  padding: 20rpx 30rpx 30rpx;
+  gap: 20rpx;
+  border-top: 2rpx solid #f0f0f0;
+}
+.btn-cancel {
+  flex: 1;
+  padding: 20rpx 0;
+  background: #f5f6fa;
+  border-radius: 12rpx;
+  font-size: 28rpx;
+  color: #666;
+  border: none;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.btn-primary {
+  flex: 2;
+  padding: 24rpx 0;
+  background: linear-gradient(135deg, #1a7cee, #4facfe);
+  border-radius: 12rpx;
+  font-size: 28rpx;
+  color: #fff;
+  border: none;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
