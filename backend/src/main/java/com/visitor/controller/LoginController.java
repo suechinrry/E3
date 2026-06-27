@@ -4,6 +4,7 @@ import com.visitor.common.Result;
 import com.visitor.common.exception.BusinessException;
 import com.visitor.dto.LoginReq;
 import com.visitor.dto.LoginResp;
+import com.visitor.dto.RegisterReq;
 import com.visitor.entity.User;
 import com.visitor.service.UserService;
 import com.visitor.auth.JwtUtil;
@@ -12,6 +13,8 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalDateTime;
 
 @Slf4j
 @Tag(name = "认证管理")
@@ -55,5 +58,41 @@ public class LoginController {
     @PostMapping("/login")
     public Result<LoginResp> login(@RequestBody LoginReq req) {
         return loginByPass(req);
+    }
+
+    @Operation(summary = "访客注册")
+    @PostMapping("/register")
+    public Result<Void> register(@Valid @RequestBody RegisterReq req) {
+        log.info(">>> 收到注册请求: username={}, name={}", req.getUsername(), req.getName());
+
+        // 检查用户名是否已存在
+        Long count = userService.lambdaQuery()
+                .eq(User::getUsername, req.getUsername())
+                .count();
+        if (count > 0) {
+            throw new BusinessException("用户名已存在");
+        }
+
+        // 检查手机号是否已存在
+        count = userService.lambdaQuery()
+                .eq(User::getPhone, req.getPhone())
+                .count();
+        if (count > 0) {
+            throw new BusinessException("手机号已被注册");
+        }
+
+        User user = new User();
+        user.setUsername(req.getUsername());
+        user.setPassword(req.getPassword());
+        user.setName(req.getName());
+        user.setPhone(req.getPhone());
+        user.setCompany(req.getCompany());
+        user.setRole("visitor");
+        user.setStatus(1);
+        user.setCreateTime(LocalDateTime.now());
+
+        userService.save(user);
+        log.info("<<< 注册成功: userId={}, username={}", user.getId(), user.getUsername());
+        return Result.success("注册成功", null);
     }
 }

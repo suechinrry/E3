@@ -1,4 +1,4 @@
-const { getAdminNotifications, createNotification, updateNotification, deleteNotification } = require('../../../utils/data-service')
+const { getAdminNotifications, createNotification, updateNotification, deleteNotification, getNotificationRecipients } = require('../../../utils/data-service')
 
 Page({
   data: {
@@ -6,6 +6,8 @@ Page({
     showForm: false,
     showDetail: false,
     detailItem: null,
+    showRecipients: false,
+    recipients: [],
     formTitle: '',
     editingId: null,
     form: { title: '', content: '', targetRole: 'all' },
@@ -18,7 +20,8 @@ Page({
   loadData() {
     getAdminNotifications(1, 100).then(res => {
       if (res.code === 200) {
-        this.setData({ list: res.data.list || [] })
+        const raw = res.data.records || res.data || []
+        this.setData({ list: Array.isArray(raw) ? raw : [] })
       }
     }).catch(() => {})
   },
@@ -85,6 +88,21 @@ Page({
   },
   hideDetail() {
     this.setData({ showDetail: false, detailItem: null })
+  },
+  onViewRecipients(e) {
+    const id = e.currentTarget.dataset.id
+    getNotificationRecipients(id).then(res => {
+      if (res.code === 200) {
+        this.setData({ showRecipients: true, recipients: res.data || [] })
+      } else {
+        wx.showToast({ title: res.msg || '加载失败', icon: 'error' })
+      }
+    }).catch(() => {
+      wx.showToast({ title: '加载失败', icon: 'error' })
+    })
+  },
+  hideRecipients() {
+    this.setData({ showRecipients: false, recipients: [] })
   },
   onDelete(e) {
     const id = e.currentTarget.dataset.id

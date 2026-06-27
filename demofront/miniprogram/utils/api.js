@@ -3,6 +3,7 @@ const API = {
   // 认证
   LOGIN: '/auth/login',
   LOGIN_BYPASS: '/auth/login/bypass',
+  REGISTER: '/auth/register',
 
   // 访客
   APPOINTMENT_CREATE: '/appointment',
@@ -66,9 +67,16 @@ const API = {
   NOTIFICATION_CREATE: '/admin/notification',
   NOTIFICATION_UPDATE: (id) => `/admin/notification/${id}`,
   NOTIFICATION_DELETE: (id) => `/admin/notification/${id}`,
+  NOTIFICATION_RECIPIENTS: (id) => `/admin/notification/${id}/recipients`,
 
   // 访客通知
   NOTIFICATION_PUBLIC: '/notification',
+
+  // 用户弹窗通知
+  USER_NOTIFICATION_POPUP: '/user-notification/popup',
+  USER_NOTIFICATION_LIST: '/user-notification/list',
+  USER_NOTIFICATION_READ: (id) => `/user-notification/${id}/read`,
+  USER_NOTIFICATION_READ_ALL: '/user-notification/read-all',
 
   // 门岗
   GUARD_VERIFY: '/guard/verify',

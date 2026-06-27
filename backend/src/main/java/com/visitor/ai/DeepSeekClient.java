@@ -11,6 +11,14 @@ import java.util.*;
 @Service
 public class DeepSeekClient {
 
+    private static final List<String> LOCATIONS = List.of(
+            "一楼大厅接待区",
+            "二楼会议室A",
+            "三楼贵宾室",
+            "四楼洽谈室",
+            "五楼总裁办公室"
+    );
+
     private final String apiKey;
     private final String apiUrl;
     private final String model;
@@ -37,10 +45,10 @@ public class DeepSeekClient {
         }
 
         String prompt = String.format(
-                "你是一个企业前台接待助手。请根据以下访客信息生成一段迎接话术（包含欢迎语、座位安排建议、注意事项）。" +
+                "你是一个企业前台接待助手。请根据以下访客信息生成一段迎接话术（包含欢迎语、注意事项）。" +
                 "请严格按照JSON格式返回，不要包含markdown代码块。\n\n" +
                 "访客姓名：%s\n来访单位：%s\n访问事由：%s\n被访人：%s\n\n" +
-                "返回格式：{\"greeting\":\"...\",\"seatSuggestion\":\"...\",\"notes\":\"...\"}",
+                "返回格式：{\"greeting\":\"...\",\"notes\":\"...\"}",
                 visitorName, company, purpose, hostName);
 
         try {
@@ -95,10 +103,10 @@ public class DeepSeekClient {
     private Map<String, String> mockGreeting(String name, String company,
                                               String purpose, String hostName) {
         Map<String, String> result = new LinkedHashMap<>();
+        String location = LOCATIONS.get(new Random().nextInt(LOCATIONS.size()));
         result.put("greeting", String.format(
-                "欢迎%s的%s先生/女士莅临我司%s，%s已在会议室等候，请前台引导。",
-                company, name, purpose, hostName));
-        result.put("seatSuggestion", "建议安排在会议室A，已准备投影设备和茶水。");
+                "欢迎%s的%s先生/女士莅临我司，%s将接待您。请前往%s与%s见面。",
+                company, name, hostName, location, hostName));
         result.put("notes", "来访人员信息已通知被访人，请前台准备访客证。");
         return result;
     }

@@ -72,3 +72,4 @@
   </view>
 </scroll-view>
 <tabBar activeTab="0"></tabBar>
+<notification-popup visible="{{popupVisible}}" notification="{{popupNotification}}" bind:confirm="onPopupConfirm" bind:close="onPopupClose"></notification-popup>

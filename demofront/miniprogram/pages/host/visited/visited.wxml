@@ -37,11 +37,7 @@
             <text class="greeting-label">欢迎语</text>
             <text class="greeting-value">{{item.greetingText}}</text>
           </view>
-          <view class="greeting-line">
-            <text class="greeting-label">座位安排</text>
-            <text class="greeting-value">{{item.seatSuggestion}}</text>
-          </view>
-          <view class="greeting-line">
+          <view class="greeting-line" wx:if="{{item.notes}}">
             <text class="greeting-label">注意事项</text>
             <text class="greeting-value">{{item.notes}}</text>
           </view>

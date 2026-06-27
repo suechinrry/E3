@@ -19,6 +19,11 @@
 
     <button class="btn-primary login-btn" bindtap="onLogin" loading="{{loading}}">登 录</button>
 
+    <view class="register-link">
+      <text>还没有账号？</text>
+      <text class="link-text" bindtap="onGoRegister">立即注册</text>
+    </view>
+
     <view class="demo-section">
       <text class="demo-title">预置演示账号（点击快速填入）</text>
       <view class="demo-accounts">

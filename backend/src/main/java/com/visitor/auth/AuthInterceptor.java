@@ -25,7 +25,7 @@ public class AuthInterceptor implements HandlerInterceptor {
             "/admin/**",
             "/appointment/host", "/appointment/host/**", "/appointment/helper",
             "/appointment/*/approve", "/appointment/*/qrcode",
-            "/notification", "/ai/**",
+            "/notification", "/user-notification/**", "/ai/**",
             "/user/profile"
         ),
         "host", List.of(
@@ -33,6 +33,7 @@ public class AuthInterceptor implements HandlerInterceptor {
             "/appointment/helper",
             "/appointment/*/approve",
             "/notification",
+            "/user-notification/**",
             "/ai/**",
             "/user/profile"
         ),
@@ -46,10 +47,13 @@ public class AuthInterceptor implements HandlerInterceptor {
             "/appointment/*/qrcode",
             "/notification",
             "/ai/appointment/*/greeting",
+            "/user-notification/**",
             "/user/profile"
         ),
         "guard", List.of(
             "/guard/**",
+            "/notification",
+            "/user-notification/**",
             "/user/profile"
         )
     );

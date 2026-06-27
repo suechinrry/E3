@@ -39,7 +39,6 @@ public class GreetingController {
         if (exist != null && "completed".equals(exist.getStatus())) {
             return Result.success(Map.of(
                     "greeting", exist.getGreetingText(),
-                    "seatSuggestion", exist.getSeatSuggestion(),
                     "notes", exist.getNotes(),
                     "source", "cached"
             ));
@@ -66,7 +65,6 @@ public class GreetingController {
         if (g == null) g = new Greeting();
         g.setAppointmentId(appointmentId);
         g.setGreetingText(result.get("greeting"));
-        g.setSeatSuggestion(result.get("seatSuggestion"));
         g.setNotes(result.get("notes"));
         g.setStatus("completed");
         greetingService.saveOrUpdate(g);
@@ -83,7 +81,6 @@ public class GreetingController {
         if (g == null) return Result.error("话术尚未生成");
         return Result.success(Map.of(
                 "greeting", g.getGreetingText(),
-                "seatSuggestion", g.getSeatSuggestion(),
                 "notes", g.getNotes(),
                 "status", g.getStatus()
         ));

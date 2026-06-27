@@ -3,3 +3,4 @@ miniprogram_npm
 *.log
 project.private.config.json
 .env
+/测试/

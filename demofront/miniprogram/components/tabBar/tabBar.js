@@ -2,22 +2,25 @@ const tabsConfig = {
   visitor: [
     { page: '/pages/visitor/appoint/appoint', text: '预约申请', icon: '📋' },
     { page: '/pages/visitor/records/records', text: '预约记录', icon: '📄' },
+    { page: '/pages/visitor/notification-center/notification-center', text: '通知', icon: '📢' },
     { page: '/pages/personal/profile/profile', text: '我的', icon: '👤' }
   ],
   host: [
     { page: '/pages/host/visited/visited', text: '被访记录', icon: '📊' },
     { page: '/pages/host/approve/approve', text: '审批', icon: '✅' },
+    { page: '/pages/visitor/notification-center/notification-center', text: '通知', icon: '📢' },
     { page: '/pages/personal/profile/profile', text: '我的', icon: '👤' }
   ],
   admin: [
     { page: '/pages/admin/employees/employees', text: '员工', icon: '👥' },
-    { page: '/pages/admin/departments/departments', text: '部门', icon: '🏢' },
     { page: '/pages/admin/approve/adApprove', text: '审核', icon: '📝' },
+    { page: '/pages/admin/notify-mgr/notify-mgr', text: '通知', icon: '📢' },
     { page: '/pages/admin/stats/stats', text: '统计', icon: '📈' },
     { page: '/pages/admin/system/system', text: '设置', icon: '⚙️' }
   ],
   guard: [
     { page: '/pages/guard/scan/scan', text: '扫码核验', icon: '📷' },
+    { page: '/pages/visitor/notification-center/notification-center', text: '通知', icon: '📢' },
     { page: '/pages/personal/profile/profile', text: '我的', icon: '👤' }
   ]
 }

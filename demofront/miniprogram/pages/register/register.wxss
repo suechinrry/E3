@@ -1,4 +1,4 @@
-.login-container {
+.register-container {
   min-height: 100vh;
   background: linear-gradient(180deg, #1a7cee 0%, #3b9eff 40%, #f5f6fa 40%);
   display: flex;
@@ -6,7 +6,7 @@
   align-items: center;
 }
 
-.login-header {
+.register-header {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -42,7 +42,7 @@
   margin-top: 12rpx;
 }
 
-.login-form {
+.register-form {
   width: 600rpx;
   background: #fff;
   border-radius: 24rpx;
@@ -50,13 +50,13 @@
   box-shadow: 0 8rpx 40rpx rgba(0,0,0,0.08);
 }
 
-.login-btn {
+.register-btn {
   width: 100%;
   margin-top: 30rpx;
 }
 
-.register-link {
-  margin-top: 24rpx;
+.login-link {
+  margin-top: 30rpx;
   text-align: center;
   font-size: 26rpx;
   color: #666;
@@ -66,46 +66,4 @@
   color: #1a7cee;
   margin-left: 10rpx;
   text-decoration: underline;
-}
-
-.demo-section {
-  margin-top: 36rpx;
-  padding-top: 30rpx;
-  border-top: 2rpx solid #f0f0f0;
-}
-.demo-title {
-  font-size: 24rpx;
-  color: #999;
-  text-align: center;
-  display: block;
-  margin-bottom: 20rpx;
-}
-.demo-accounts {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 16rpx;
-}
-.demo-item {
-  width: calc(50% - 8rpx);
-  background: #f5f6fa;
-  border-radius: 12rpx;
-  padding: 16rpx;
-  text-align: center;
-  box-sizing: border-box;
-  transition: all 0.2s;
-}
-.demo-item:active {
-  background: #e8edf7;
-}
-.demo-role {
-  font-size: 24rpx;
-  color: #1a7cee;
-  font-weight: 500;
-  display: block;
-}
-.demo-info {
-  font-size: 20rpx;
-  color: #aaa;
-  margin-top: 4rpx;
-  display: block;
 }

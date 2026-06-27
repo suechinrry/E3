@@ -70,6 +70,8 @@ public class SystemController {
     @PutMapping("/admin/{id}")
     public Result<Void> updateAdmin(@PathVariable Integer id, @RequestBody com.visitor.entity.User user) {
         user.setId(id);
+        // 角色单一限制：管理员必须是admin，不允许改角色
+        user.setRole(null);
         userService.updateById(user);
         return Result.success("修改成功", null);
     }

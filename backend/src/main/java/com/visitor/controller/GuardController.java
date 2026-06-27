@@ -1,9 +1,12 @@
 package com.visitor.controller;
 
 import com.visitor.common.Result;
+import com.visitor.entity.Greeting;
 import com.visitor.entity.VisitRecord;
 import com.visitor.entity.Appointment;
 import com.visitor.service.AppointmentService;
+import com.visitor.service.GreetingService;
+import com.visitor.service.UserNotificationService;
 import com.visitor.service.VisitRecordService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -22,18 +25,23 @@ public class GuardController {
 
     private final AppointmentService appointmentService;
     private final VisitRecordService visitRecordService;
+    private final GreetingService greetingService;
+    private final UserNotificationService userNotificationService;
 
     public GuardController(AppointmentService appointmentService,
-                           VisitRecordService visitRecordService) {
+                           VisitRecordService visitRecordService,
+                           GreetingService greetingService,
+                           UserNotificationService userNotificationService) {
         this.appointmentService = appointmentService;
         this.visitRecordService = visitRecordService;
+        this.greetingService = greetingService;
+        this.userNotificationService = userNotificationService;
     }
 
     @Operation(summary = "扫码核验")
     @PostMapping("/verify")
     public Result<Map<String, Object>> verify(@RequestBody Map<String, String> body) {
         String qrCode = body.get("qrCode");
-        // qrCode 格式: "appointment_1001"
         Integer id;
         try {
             id = Integer.parseInt(qrCode.replace("appointment_", ""));
@@ -52,6 +60,11 @@ public class GuardController {
         m.put("hostName", a.getHostName());
         m.put("time", a.getStartTime() + " - " + (a.getEndTime() != null ? a.getEndTime() : ""));
         m.put("status", a.getStatus());
+
+        // 核验成功时，给访客发送接待建议通知
+        if (valid && a.getVisitorId() != null) {
+            sendGreetingNotification(a);
+        }
         return Result.success(m);
     }
 
@@ -63,7 +76,6 @@ public class GuardController {
         if (name == null || name.isBlank() || phone == null || phone.isBlank()) {
             return Result.error("请输入访客姓名和手机号");
         }
-        // 查找该访客所有已通过的预约（按时间倒序取最新）
         List<Appointment> list = appointmentService.lambdaQuery()
                 .eq(Appointment::getVisitorName, name.trim())
                 .eq(Appointment::getVisitorPhone, phone.trim())
@@ -73,7 +85,7 @@ public class GuardController {
         if (list.isEmpty()) {
             return Result.error("未找到该访客的有效预约，请核实姓名和手机号");
         }
-        Appointment a = list.get(0);  // 最新一条
+        Appointment a = list.get(0);
         boolean valid = true;
         Map<String, Object> m = new LinkedHashMap<>();
         m.put("valid", valid);
@@ -84,7 +96,37 @@ public class GuardController {
         m.put("hostName", a.getHostName());
         m.put("time", a.getStartTime() + " - " + (a.getEndTime() != null ? a.getEndTime() : ""));
         m.put("status", a.getStatus());
+
+        // 核验成功时，给访客发送接待建议通知
+        if (a.getVisitorId() != null) {
+            sendGreetingNotification(a);
+        }
         return Result.success(m);
+    }
+
+    /**
+     * 核验成功时发送接待建议通知给访客（防重复由service层统一处理）
+     */
+    private void sendGreetingNotification(Appointment a) {
+        // 查询该预约的接待建议
+        Greeting greeting = greetingService.lambdaQuery()
+                .eq(Greeting::getAppointmentId, a.getId())
+                .one();
+
+        String content;
+        if (greeting != null && "completed".equals(greeting.getStatus())) {
+            content = String.format(
+                "{\"greetingText\":\"%s\",\"notes\":\"%s\"}",
+                greeting.getGreetingText() != null ? greeting.getGreetingText() : "",
+                greeting.getNotes() != null ? greeting.getNotes() : ""
+            );
+        } else {
+            content = String.format("{\"greetingText\":\"欢迎%s莅临我司，%s将接待您。\"}",
+                a.getVisitorName(), a.getHostName());
+        }
+
+        userNotificationService.createNotification(
+            a.getVisitorId(), "greeting", "欢迎莅临", content, a.getId());
     }
 
     @Operation(summary = "确认放行")

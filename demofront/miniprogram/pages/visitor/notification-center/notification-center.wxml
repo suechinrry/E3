@@ -1,0 +1,32 @@
+<view class="page">
+  <view class="tabs">
+    <view class="tab {{currentTab === 'unread' ? 'active' : ''}}" data-tab="unread" bindtap="switchTab">未读</view>
+    <view class="tab {{currentTab === 'read' ? 'active' : ''}}" data-tab="read" bindtap="switchTab">已读</view>
+    <view class="tab {{currentTab === 'all' ? 'active' : ''}}" data-tab="all" bindtap="switchTab">全部</view>
+    <text class="mark-all-btn" bindtap="onMarkAllRead" wx:if="{{hasUnread}}">全部已读</text>
+  </view>
+
+  <block wx:for="{{list}}" wx:key="id">
+    <view class="card notification-card {{item.isRead ? 'is-read' : ''}}" bindtap="onTapItem" data-item="{{item}}" data-index="{{index}}">
+      <view class="notification-header">
+        <view class="notification-type-icon">
+          <text wx:if="{{item.type === 'approved'}}">✅</text>
+          <text wx:if="{{item.type === 'rejected'}}">❌</text>
+          <text wx:if="{{item.type === 'greeting'}}">🤖</text>
+          <text wx:if="{{item.type === 'announcement'}}">📢</text>
+        </view>
+        <text class="notification-title">{{item.title}}</text>
+        <view class="unread-dot" wx:if="{{!item.isRead}}"></view>
+        <text class="notification-time">{{item.createTime}}</text>
+      </view>
+      <text class="notification-summary">
+        {{item.type === 'greeting' ? '点击查看欢迎词' : item.content}}
+      </text>
+    </view>
+  </block>
+
+  <view class="empty-state" wx:if="{{list.length === 0}}">暂无通知</view>
+
+  <notification-popup visible="{{popupVisible}}" notification="{{popupNotification}}" bind:confirm="onPopupConfirm" bind:close="onPopupClose"></notification-popup>
+</view>
+<tabBar activeTab="{{activeTab}}"></tabBar>

@@ -5,12 +5,13 @@ Page({
     list: []
   },
   onShow() {
-    this.loadData()
+    wx.redirectTo({ url: '/pages/visitor/notification-center/notification-center' })
   },
   loadData() {
     getNotifications(1, 100).then(res => {
       if (res.code === 200) {
-        this.setData({ list: res.data.list || [] })
+        const raw = res.data.records || res.data || []
+        this.setData({ list: Array.isArray(raw) ? raw : [] })
       }
     }).catch(() => {
       wx.showToast({ title: '加载失败', icon: 'error' })

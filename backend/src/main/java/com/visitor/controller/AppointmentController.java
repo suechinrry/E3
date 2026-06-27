@@ -7,6 +7,7 @@ import com.visitor.entity.Greeting;
 import com.visitor.entity.User;
 import com.visitor.service.AppointmentService;
 import com.visitor.service.GreetingService;
+import com.visitor.service.UserNotificationService;
 import com.visitor.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -27,13 +28,16 @@ public class AppointmentController {
     private final UserService userService;
     private final GreetingService greetingService;
     private final DeepSeekClient deepSeekClient;
+    private final UserNotificationService userNotificationService;
 
     public AppointmentController(AppointmentService appointmentService, UserService userService,
-                                  GreetingService greetingService, DeepSeekClient deepSeekClient) {
+                                  GreetingService greetingService, DeepSeekClient deepSeekClient,
+                                  UserNotificationService userNotificationService) {
         this.appointmentService = appointmentService;
         this.userService = userService;
         this.greetingService = greetingService;
         this.deepSeekClient = deepSeekClient;
+        this.userNotificationService = userNotificationService;
     }
 
     // --- 访客端 ---
@@ -151,30 +155,54 @@ public class AppointmentController {
 
     @Operation(summary = "审批预约")
     @PutMapping("/appointment/{id}/approve")
-    public Result<Void> approve(@PathVariable Integer id, @RequestBody Map<String, String> body) {
+    public Result<Void> approve(@PathVariable Integer id, @RequestBody Map<String, String> body, HttpServletRequest req) {
         String status = body.get("status");
-        appointmentService.approve(id, status, body.get("remark"));
+        String remark = body.get("remark");
+
+        // 权限校验：Host只能审批hostId==自己的预约，Admin不受限制
+        Appointment a = appointmentService.getById(id);
+        if (a == null) return Result.error("预约不存在");
+        String role = (String) req.getAttribute("role");
+        Integer userId = (Integer) req.getAttribute("userId");
+        if ("host".equals(role) && !userId.equals(a.getHostId())) {
+            return Result.error("您只能审批来访自己的预约");
+        }
+
+        appointmentService.approve(id, status, remark);
+
+        // 给访客发送审批结果通知（仅系统注册访客）
+        if (a != null && a.getVisitorId() != null) {
+            if ("approved".equals(status)) {
+                String content = String.format(
+                    "您预约的【%s】已被%s审核通过，预计到访时间：%s。",
+                    a.getPurpose(), a.getHostName(), a.getStartTime());
+                userNotificationService.createNotification(
+                    a.getVisitorId(), "approved", "预约审批通过", content, id);
+            } else if ("rejected".equals(status)) {
+                String rejectReason = remark != null && !remark.isBlank() ? remark : "未说明原因";
+                String content = String.format(
+                    "您预约的【%s】已被%s拒绝，原因：%s。",
+                    a.getPurpose(), a.getHostName(), rejectReason);
+                userNotificationService.createNotification(
+                    a.getVisitorId(), "rejected", "预约被拒绝", content, id);
+            }
+        }
 
         // 审批通过时自动生成 AI 迎接话术
-        if ("approved".equals(status)) {
+        if ("approved".equals(status) && a != null) {
             try {
-                Appointment a = appointmentService.getById(id);
-                if (a != null) {
-                    // 检查是否已有话术
-                    Greeting exist = greetingService.lambdaQuery()
-                            .eq(Greeting::getAppointmentId, id).one();
-                    if (exist == null) {
-                        Map<String, String> aiResult = deepSeekClient.generateGreeting(
-                                a.getVisitorName(), a.getCompany(), a.getPurpose(), a.getHostName());
-                        Greeting g = new Greeting();
-                        g.setAppointmentId(id);
-                        g.setGreetingText(aiResult.get("greeting"));
-                        g.setSeatSuggestion(aiResult.get("seatSuggestion"));
-                        g.setNotes(aiResult.get("notes"));
-                        g.setStatus("completed");
-                        greetingService.save(g);
-                        log.info("AI话术已生成: appointmentId={}", id);
-                    }
+                Greeting exist = greetingService.lambdaQuery()
+                        .eq(Greeting::getAppointmentId, id).one();
+                if (exist == null) {
+                    Map<String, String> aiResult = deepSeekClient.generateGreeting(
+                            a.getVisitorName(), a.getCompany(), a.getPurpose(), a.getHostName());
+                    Greeting g = new Greeting();
+                    g.setAppointmentId(id);
+                    g.setGreetingText(aiResult.get("greeting"));
+                    g.setNotes(aiResult.get("notes"));
+                    g.setStatus("completed");
+                    greetingService.save(g);
+                    log.info("AI话术已生成: appointmentId={}", id);
                 }
             } catch (Exception e) {
                 log.error("生成AI话术失败: appointmentId={}", id, e);

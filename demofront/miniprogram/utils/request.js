@@ -1,12 +1,4 @@
-function request({ url, method = 'GET', data = {}, isMock = false, mockData = null }) {
-  if (isMock) {
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        resolve({ code: 200, msg: 'success', data: mockData })
-      }, 300)
-    })
-  }
-
+function request({ url, method = 'GET', data = {} }) {
   const app = getApp()
   const token = app.globalData.token || wx.getStorageSync('token')
   const header = { 'Content-Type': 'application/json' }

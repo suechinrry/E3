@@ -1,4 +1,4 @@
-<view class="page">
+<view class="page has-tabbar">
   <view class="card">
     <view class="flex-header">
       <text class="section-title">通知公告</text>
@@ -12,6 +12,7 @@
         </view>
         <view class="notify-actions">
           <text class="action-btn" bindtap="onEdit" data-item="{{item}}">编辑</text>
+          <text class="action-btn" bindtap="onViewRecipients" data-id="{{item.id}}">查看</text>
           <text class="action-btn action-del" bindtap="onDelete" data-id="{{item.id}}">删除</text>
         </view>
       </view>
@@ -65,3 +66,29 @@
     <button class="btn-primary" bindtap="hideDetail" style="flex:1;">关闭</button>
   </view>
 </view>
+
+<!-- 通知接收者详情弹窗 -->
+<view class="modal-mask" wx:if="{{showRecipients}}" bindtap="hideRecipients"></view>
+<view class="detail-modal" wx:if="{{showRecipients}}">
+  <view class="modal-header">
+    <text class="modal-title">通知接收详情</text>
+    <text class="modal-close" bindtap="hideRecipients">✕</text>
+  </view>
+  <view class="modal-body">
+    <view class="recipient-list">
+      <block wx:for="{{recipients}}" wx:key="id">
+        <view class="recipient-item">
+          <text class="recipient-user">用户ID：{{item.userId}}</text>
+          <text class="recipient-status">状态：{{item.isRead === 1 ? '已读' : '未读'}}</text>
+          <text class="recipient-time">{{item.createTime}}</text>
+        </view>
+      </block>
+      <view wx:if="{{recipients.length === 0}}" class="empty-tip">暂无接收记录</view>
+    </view>
+  </view>
+  <view class="modal-footer">
+    <button class="btn-primary" bindtap="hideRecipients" style="flex:1;">关闭</button>
+  </view>
+</view>
+
+<tabBar activeTab="2"></tabBar>

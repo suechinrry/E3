@@ -18,7 +18,6 @@ Page({
         const list = (res.data.list || []).map(item => ({
           ...item,
           greetingText: '',
-          seatSuggestion: '',
           notes: '',
           greetingSource: ''
         }))
@@ -30,7 +29,6 @@ Page({
               if (gRes.code === 200 && gRes.data) {
                 this.setData({
                   [`list[${idx}].greetingText`]: gRes.data.greeting || gRes.data.greetingText || '',
-                  [`list[${idx}].seatSuggestion`]: gRes.data.seatSuggestion || '',
                   [`list[${idx}].notes`]: gRes.data.notes || '',
                   [`list[${idx}].greetingSource`]: gRes.data.source || 'ai'
                 })
@@ -73,7 +71,6 @@ Page({
             return {
               ...item,
               greetingText: res.data.greeting || '',
-              seatSuggestion: res.data.seatSuggestion || '',
               notes: res.data.notes || '',
               greetingSource: source || ''
             }

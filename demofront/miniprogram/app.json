@@ -1,9 +1,11 @@
 {
   "pages": [
     "pages/login/login",
+    "pages/register/register",
     "pages/visitor/appoint/appoint",
     "pages/visitor/records/records",
     "pages/visitor/notices/notices",
+    "pages/visitor/notification-center/notification-center",
     "pages/host/visited/visited",
     "pages/host/approve/approve",
     "pages/host/helper/helper",

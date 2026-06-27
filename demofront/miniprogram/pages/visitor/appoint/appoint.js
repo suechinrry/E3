@@ -15,14 +15,37 @@ Page({
       date: '',
       remark: ''
     },
-    hostChecked: '',      // '' | 'ok' | 'fail'
+    hostChecked: '',
     hostCheckedName: '',
     lookingUp: false,
-    submitting: false
+    submitting: false,
+    popupVisible: false,
+    popupNotification: {}
   },
 
   onShow() {
     this.loadUserInfo()
+    this.checkPendingPopup()
+  },
+
+  checkPendingPopup() {
+    const app = getApp()
+    const pending = app.globalData.pendingNotifications
+    if (pending && pending.length > 0) {
+      this.showNotificationPopup(pending[0])
+    }
+  },
+  showNotificationPopup(notification) {
+    this.setData({ popupVisible: true, popupNotification: notification })
+  },
+  onPopupConfirm(e) {
+    const notification = e.detail.notification
+    getApp().onPopupConfirm(notification)
+    this.setData({ popupVisible: false })
+    setTimeout(() => this.checkPendingPopup(), 300)
+  },
+  onPopupClose() {
+    this.setData({ popupVisible: false })
   },
 
   // ===== 自动填入访客信息 =====

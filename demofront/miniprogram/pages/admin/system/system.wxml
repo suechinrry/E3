@@ -34,12 +34,12 @@
       <text class="menu-text">管理员管理</text>
       <text class="menu-arrow">›</text>
     </view>
-    <view class="menu-item" bindtap="goPage" data-url="/pages/admin/holiday/holiday">
-      <text class="menu-text">节假日设置</text>
+    <view class="menu-item" bindtap="goPage" data-url="/pages/admin/departments/departments">
+      <text class="menu-text">部门管理</text>
       <text class="menu-arrow">›</text>
     </view>
-    <view class="menu-item" bindtap="goPage" data-url="/pages/admin/notify-mgr/notify-mgr">
-      <text class="menu-text">通知管理</text>
+    <view class="menu-item" bindtap="goPage" data-url="/pages/admin/holiday/holiday">
+      <text class="menu-text">节假日设置</text>
       <text class="menu-arrow">›</text>
     </view>
   </view>

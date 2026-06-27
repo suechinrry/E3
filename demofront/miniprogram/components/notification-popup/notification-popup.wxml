@@ -1,0 +1,53 @@
+<view class="popup-overlay" wx:if="{{visible}}" bindtap="onClose">
+  <view class="popup-container" catchtap="preventBubble">
+    <!-- 审批通过 -->
+    <view class="popup-content popup-approved" wx:if="{{notification.type === 'approved'}}">
+      <view class="popup-icon-wrap approved-icon-wrap">
+        <text class="popup-icon">✅</text>
+      </view>
+      <text class="popup-title">{{notification.title}}</text>
+      <text class="popup-body">{{notification.content}}</text>
+    </view>
+
+    <!-- 审批拒绝 -->
+    <view class="popup-content popup-rejected" wx:if="{{notification.type === 'rejected'}}">
+      <view class="popup-icon-wrap rejected-icon-wrap">
+        <text class="popup-icon">❌</text>
+      </view>
+      <text class="popup-title">{{notification.title}}</text>
+      <text class="popup-body">{{notification.content}}</text>
+    </view>
+
+    <!-- 接待建议 -->
+    <view class="popup-content popup-greeting" wx:if="{{notification.type === 'greeting'}}">
+      <view class="popup-icon-wrap greeting-icon-wrap">
+        <text class="popup-icon">🤖</text>
+      </view>
+      <text class="popup-title">{{notification.title}}</text>
+      <view class="greeting-detail" wx:if="{{greetingData}}">
+        <view class="greeting-section">
+          <text class="greeting-section-title">迎接语</text>
+          <text class="greeting-section-text">{{greetingData.greetingText}}</text>
+        </view>
+        <view class="greeting-section" wx:if="{{greetingData.notes}}">
+          <text class="greeting-section-title">注意事项</text>
+          <text class="greeting-section-text">{{greetingData.notes}}</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- 管理员公告 -->
+    <view class="popup-content popup-announcement" wx:if="{{notification.type === 'announcement'}}">
+      <view class="popup-icon-wrap announcement-icon-wrap">
+        <text class="popup-icon">📢</text>
+      </view>
+      <text class="popup-title">{{notification.title}}</text>
+      <text class="popup-body">{{notification.content}}</text>
+    </view>
+
+    <view class="popup-actions">
+      <button class="popup-btn popup-btn-primary" bindtap="onConfirm">知道了</button>
+      <button class="popup-btn popup-btn-secondary" bindtap="onGoCenter" wx:if="{{notification.type !== 'greeting'}}">查看详情</button>
+    </view>
+  </view>
+</view>

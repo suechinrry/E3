@@ -26,6 +26,9 @@ Page({
       this.onLogin()
     })
   },
+  onGoRegister() {
+    wx.navigateTo({ url: '/pages/register/register' })
+  },
   onLogin() {
     const { username, password } = this.data
     if (!username || !password) {

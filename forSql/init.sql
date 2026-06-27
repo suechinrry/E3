@@ -150,3 +150,22 @@ CREATE TABLE sys_setting (
   description VARCHAR(200) NULL     COMMENT '说明',
   update_time DATETIME     NULL     ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='系统配置表';
+
+-- -----------------------------------------------------------
+-- 10. 用户通知表（弹窗提醒专用）
+-- -----------------------------------------------------------
+DROP TABLE IF EXISTS sys_user_notification;
+CREATE TABLE sys_user_notification (
+  id              INT AUTO_INCREMENT PRIMARY KEY,
+  user_id         INT          NOT NULL COMMENT '接收通知的用户ID',
+  type            ENUM('approved','rejected','greeting','announcement') NOT NULL COMMENT '通知类型：审批通过/审批拒绝/欢迎莅临/公告',
+  title           VARCHAR(100) NOT NULL COMMENT '通知标题',
+  content         TEXT         NULL     COMMENT '通知内容（greeting类型存JSON含greetingText/seatSuggestion/notes，其他类型存纯文本）',
+  appointment_id  INT          NULL     COMMENT '关联预约ID（公告类通知可为空）',
+  is_read         TINYINT      NOT NULL DEFAULT 0 COMMENT '是否已读 0未读 1已读',
+  create_time     DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  INDEX idx_user (user_id),
+  INDEX idx_user_read (user_id, is_read),
+  INDEX idx_type (type),
+  INDEX idx_appointment (appointment_id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='用户通知表（弹窗提醒）';

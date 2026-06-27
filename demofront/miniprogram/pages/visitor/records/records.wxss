@@ -94,20 +94,6 @@
   border: 2rpx solid #1a7cee;
 }
 
-.greeting-area {
-  display: flex;
-  align-items: center;
-  margin-top: 20rpx;
-  padding: 16rpx 20rpx;
-  background: #f0f8ff;
-  border-radius: 10rpx;
-  font-size: 24rpx;
-  color: #1a7cee;
-}
-.greeting-icon {
-  margin-right: 10rpx;
-}
-
 /* 二维码展示 */
 .qr-mini {
   display: flex;

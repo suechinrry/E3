@@ -1,7 +1,7 @@
 {
-  "navigationBarTitleText": "预约申请",
   "usingComponents": {
     "tabBar": "/components/tabBar/tabBar",
     "notification-popup": "/components/notification-popup/notification-popup"
-  }
+  },
+  "navigationBarTitleText": "通知中心"
 }

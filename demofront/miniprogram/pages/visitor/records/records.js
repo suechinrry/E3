@@ -1,4 +1,4 @@
-const { getMyAppointments, cancelAppointment, restoreAppointment, rebookAppointment, getGreeting } = require('../../../utils/data-service')
+const { getMyAppointments, cancelAppointment, restoreAppointment, rebookAppointment } = require('../../../utils/data-service')
 
 Page({
   data: {
@@ -7,30 +7,40 @@ Page({
     statusMap: {
       pending: '待审核', approved: '已通过', rejected: '已拒绝',
       cancelled: '已取消', confirmed: '已核验'
-    }
+    },
+    popupVisible: false,
+    popupNotification: {}
   },
   onShow() {
     this.loadData()
+    // 页面显示时检查是否有待弹窗通知
+    this.checkPendingPopup()
+  },
+  checkPendingPopup() {
+    const app = getApp()
+    const pending = app.globalData.pendingNotifications
+    if (pending && pending.length > 0) {
+      this.showNotificationPopup(pending[0])
+    }
+  },
+  showNotificationPopup(notification) {
+    this.setData({ popupVisible: true, popupNotification: notification })
+  },
+  onPopupConfirm(e) {
+    const notification = e.detail.notification
+    getApp().onPopupConfirm(notification)
+    this.setData({ popupVisible: false })
+    // 延迟检查是否还有下一个
+    setTimeout(() => this.checkPendingPopup(), 300)
+  },
+  onPopupClose() {
+    this.setData({ popupVisible: false })
   },
   loadData() {
     const tab = this.data.currentTab
     getMyAppointments(1, 100, tab).then(res => {
       if (res.code === 200) {
-        const list = (res.data.list || []).map(a => ({
-          ...a,
-          greeting: ''
-        }))
-        this.setData({ list })
-        // 异步拉取已通过预约的话术
-        list.forEach((item, idx) => {
-          if (item.status === 'approved') {
-            getGreeting(item.id).then(gRes => {
-              if (gRes.code === 200 && gRes.data) {
-                this.setData({ [`list[${idx}].greeting`]: gRes.data.greetingText || gRes.data.greeting || '' })
-              }
-            }).catch(() => {})
-          }
-        })
+        this.setData({ list: res.data.list || [] })
       }
     }).catch(() => {
       wx.showToast({ title: '加载失败', icon: 'error' })
@@ -181,15 +191,4 @@ Page({
       }
     })
   },
-  onViewGreeting(e) {
-    const item = e.currentTarget.dataset.item
-    if (item.greeting) {
-      wx.showModal({ title: '迎接话术', content: item.greeting, confirmText: '知道了' })
-    } else {
-      wx.showToast({ title: '暂未生成话术', icon: 'none' })
-    }
-  },
-  goNotices() {
-    wx.navigateTo({ url: '/pages/visitor/notices/notices' })
-  }
 })

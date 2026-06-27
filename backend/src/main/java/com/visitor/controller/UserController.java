@@ -55,6 +55,8 @@ public class UserController {
     @PutMapping("/{id}")
     public Result<Void> update(@PathVariable Integer id, @RequestBody User user) {
         user.setId(id);
+        // 角色单一限制：员工必须是host，不允许改角色
+        user.setRole(null); // 不允许通过此接口修改角色
         // 修改时只更新非空字段，避免误清数据
         if (user.getPassword() == null || user.getPassword().isBlank()) {
             user.setPassword(null); // null 表示不修改密码
