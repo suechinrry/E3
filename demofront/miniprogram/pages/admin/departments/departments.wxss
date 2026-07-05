@@ -1,0 +1,199 @@
+.page { padding-bottom: 40rpx; }
+
+/* 顶部 */
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24rpx 30rpx;
+  background: #fff;
+  margin-bottom: 4rpx;
+}
+.page-title {
+  font-size: 34rpx;
+  font-weight: 600;
+  color: #222;
+}
+.add-btn {
+  background: linear-gradient(135deg, #1a7cee, #3b9eff);
+  color: #fff;
+  font-size: 24rpx;
+  padding: 10rpx 28rpx;
+  border-radius: 20rpx;
+  border: none;
+  box-shadow: 0 4rpx 12rpx rgba(26,124,238,0.25);
+}
+
+/* 部门树 */
+.dept-tree {
+  padding: 16rpx 0 80rpx;
+}
+.dept-node-wrap {
+  /* 递归包裹容器 */
+}
+
+/* 部门行 */
+.dept-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24rpx 30rpx 24rpx 24rpx;
+  margin: 4rpx 30rpx;
+  border-radius: 12rpx;
+  background: #fff;
+  transition: all 0.2s;
+}
+.dept-row:active {
+  background: #f5f7fa;
+}
+.level-root {
+  margin-top: 6rpx;
+  box-shadow: 0 1rpx 6rpx rgba(0,0,0,0.04);
+}
+.level-sub {
+  margin: 2rpx 30rpx 2rpx 30rpx;
+  background: #fafbfc;
+  border-radius: 10rpx;
+}
+
+.dept-left {
+  display: flex;
+  align-items: center;
+  gap: 12rpx;
+  flex: 1;
+  min-width: 0;
+}
+.dept-expand-icon {
+  font-size: 28rpx;
+  color: #1a7cee;
+  width: 32rpx;
+  text-align: center;
+  flex-shrink: 0;
+}
+.dept-expand-icon.placeholder {
+  visibility: hidden;
+}
+.dept-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4rpx;
+  min-width: 0;
+}
+.dept-name {
+  font-size: 28rpx;
+  font-weight: 500;
+  color: #222;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.dept-sub {
+  font-size: 22rpx;
+  color: #b0b8c1;
+}
+
+.dept-right {
+  display: flex;
+  align-items: center;
+  gap: 16rpx;
+  flex-shrink: 0;
+  margin-left: 16rpx;
+}
+.dept-badge {
+  background: #f0f5ff;
+  border-radius: 16rpx;
+  padding: 4rpx 14rpx;
+  font-size: 20rpx;
+  color: #1a7cee;
+}
+.action-icon {
+  font-size: 28rpx;
+  padding: 8rpx;
+  color: #8a94a6;
+}
+.action-icon.del {
+  color: #e8505b;
+}
+.action-icon:active {
+  opacity: 0.5;
+}
+
+/* 表单弹窗 */
+.modal-mask {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.5);
+  z-index: 100;
+}
+.form-modal {
+  position: fixed;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: 640rpx;
+  background: #fff;
+  border-radius: 20rpx;
+  z-index: 101;
+  overflow: hidden;
+}
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 30rpx;
+  border-bottom: 2rpx solid #f0f0f0;
+}
+.modal-title { font-size: 32rpx; font-weight: 600; }
+.modal-close { font-size: 36rpx; color: #999; padding: 10rpx; }
+.modal-body { padding: 30rpx; max-height: 60vh; }
+.modal-body .input-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 24rpx;
+}
+.modal-body .input-label {
+  font-size: 26rpx;
+  color: #666;
+  margin-bottom: 10rpx;
+}
+.modal-body .input-field {
+  height: 76rpx;
+  background: #f5f6fa;
+  border-radius: 12rpx;
+  padding: 0 24rpx;
+  font-size: 28rpx;
+}
+.modal-body .picker-field {
+  height: 76rpx;
+  background: #f5f6fa;
+  border-radius: 12rpx;
+  padding: 0 24rpx;
+  font-size: 28rpx;
+  line-height: 76rpx;
+  color: #333;
+}
+.modal-footer {
+  display: flex;
+  padding: 20rpx 30rpx 30rpx;
+  gap: 20rpx;
+  border-top: 2rpx solid #f0f0f0;
+}
+.btn-cancel {
+  flex: 1;
+  padding: 20rpx 0;
+  background: #f5f6fa;
+  border-radius: 12rpx;
+  font-size: 28rpx;
+  color: #666;
+  border: none;
+  text-align: center;
+}
+.btn-primary {
+  flex: 2;
+  padding: 24rpx 0;
+  background: linear-gradient(135deg, #1a7cee, #3b9eff);
+  border-radius: 12rpx;
+  font-size: 28rpx;
+  color: #fff;
+  border: none;
+  text-align: center;
+}

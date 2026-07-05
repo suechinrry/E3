@@ -1,0 +1,63 @@
+<view class="page has-tabbar">
+  <view class="page-header">
+    <text class="page-title">部门管理</text>
+    <button class="add-btn" bindtap="onAdd">+ 新增部门</button>
+  </view>
+
+  <view class="dept-tree">
+    <block wx:for="{{viewList}}" wx:key="key">
+      <view class="dept-row {{item.level === 0 ? 'level-root' : 'level-sub'}}"
+            style="padding-left: {{item.level * 48 + 24}}rpx"
+            bindtap="onToggle" data-id="{{item.id}}">
+        <view class="dept-left">
+          <text class="dept-expand-icon" wx:if="{{item.hasChildren}}">{{item.expanded ? '▾' : '▸'}}</text>
+          <text class="dept-expand-icon placeholder" wx:else></text>
+          <view class="dept-info">
+            <text class="dept-name">{{item.name}}</text>
+            <text class="dept-sub" wx:if="{{item.managerName}}">👤 {{item.managerName}}</text>
+          </view>
+        </view>
+        <view class="dept-right">
+          <view class="dept-badge" wx:if="{{item.employeeCount > 0}}">
+            <text>{{item.employeeCount}}人</text>
+          </view>
+          <text class="action-icon" catchtap="onEdit" data-item="{{item}}">✎</text>
+          <text class="action-icon del" catchtap="onDelete" data-id="{{item.id}}">✕</text>
+        </view>
+      </view>
+    </block>
+    <view class="empty-state" wx:if="{{viewList.length === 0}}">
+      <text>暂无部门，点击上方按钮新增</text>
+    </view>
+  </view>
+</view>
+
+<view class="modal-mask" wx:if="{{showForm}}" bindtap="hideForm"></view>
+<view class="form-modal" wx:if="{{showForm}}">
+  <view class="modal-header">
+    <text class="modal-title">{{formTitle}}</text>
+    <text class="modal-close" bindtap="hideForm">✕</text>
+  </view>
+  <scroll-view class="modal-body" scroll-y>
+    <view class="input-group">
+      <text class="input-label">部门名称 *</text>
+      <input class="input-field" value="{{form.name}}" bindinput="onInputChange" data-field="name" placeholder="请输入部门名称" />
+    </view>
+    <view class="input-group">
+      <text class="input-label">上级部门</text>
+      <picker mode="selector" range="{{parentOptions}}" range-key="name" value="{{form.parentIndex}}" bindchange="onParentChange">
+        <view class="picker-field">{{form.parentName || '无（顶级部门）'}}</view>
+      </picker>
+    </view>
+    <view class="input-group">
+      <text class="input-label">负责人ID（选填）</text>
+      <input class="input-field" type="number" value="{{form.managerId}}" bindinput="onInputChange" data-field="managerId" placeholder="输入员工ID" />
+    </view>
+  </scroll-view>
+  <view class="modal-footer">
+    <button class="btn-cancel" bindtap="hideForm">取消</button>
+    <button class="btn-primary" bindtap="onSave">保存</button>
+  </view>
+</view>
+
+<tabBar activeTab="1"></tabBar>

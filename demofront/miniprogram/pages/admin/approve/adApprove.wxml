@@ -1,0 +1,103 @@
+<view class="page has-tabbar">
+  <!-- 标签页 -->
+  <view class="tabs">
+    <view class="tab {{currentTab === 'all' ? 'active' : ''}}" data-tab="all" bindtap="switchTab">全部</view>
+    <view class="tab {{currentTab === 'pending' ? 'active' : ''}}" data-tab="pending" bindtap="switchTab">待审核</view>
+    <view class="tab {{currentTab === 'approved' ? 'active' : ''}}" data-tab="approved" bindtap="switchTab">已通过</view>
+    <view class="tab {{currentTab === 'rejected' ? 'active' : ''}}" data-tab="rejected" bindtap="switchTab">已拒绝</view>
+  </view>
+
+  <!-- 预约列表 -->
+  <block wx:for="{{list}}" wx:key="id">
+    <view class="card {{item.status}}">
+      <!-- 头部 -->
+      <view class="card-header" bindtap="onToggleDetail" data-id="{{item.id}}">
+        <view class="header-left">
+          <text class="visitor-name">{{item.visitorName}}</text>
+          <text class="company-name"> · {{item.company}}</text>
+        </view>
+        <view class="header-right">
+          <text class="status-tag {{item.status}}">{{statusMap[item.status]}}</text>
+          <text class="expand-arrow">{{item.expanded ? '▲' : '▼'}}</text>
+        </view>
+      </view>
+
+      <!-- 展开详情 -->
+      <view class="card-detail" wx:if="{{item.expanded}}">
+        <!-- AI 风险预警 -->
+        <view class="risk-banner {{item.riskLevel}}" wx:if="{{item.riskAssessed}}">
+          <view class="risk-banner-header">
+            <text class="risk-icon">⚠️</text>
+            <text class="risk-level-tag {{item.riskLevel}}">{{riskMap[item.riskLevel]}}</text>
+            <text class="risk-score">风险分：{{item.riskScore}}</text>
+            <text class="risk-source-tag" wx:if="{{item.riskReason.indexOf('硬规则')>=0}}">本地规则</text>
+            <text class="risk-source-tag" wx:if="{{item.riskReason.indexOf('规则兜底')>=0}}">本地规则</text>
+            <text class="risk-source-tag ai" wx:if="{{item.riskReason.indexOf('硬规则')<0 && item.riskReason.indexOf('规则兜底')<0 && item.riskReason}}">AI评估</text>
+            <text class="risk-reassess-btn" bindtap="onReassessRisk" data-id="{{item.id}}">重新评估</text>
+          </view>
+          <text class="risk-reason" wx:if="{{item.riskReason}}">{{item.riskReason}}</text>
+        </view>
+        <view class="detail-row">
+          <text class="detail-label">来访单位</text>
+          <text class="detail-value">{{item.company}}</text>
+        </view>
+        <view class="detail-row">
+          <text class="detail-label">被访人</text>
+          <text class="detail-value">{{item.hostName}}</text>
+        </view>
+        <view class="detail-row">
+          <text class="detail-label">联系电话</text>
+          <text class="detail-value">{{item.visitorPhone}}</text>
+        </view>
+        <view class="detail-row">
+          <text class="detail-label">到访时间</text>
+          <text class="detail-value">{{item.startTime}}</text>
+        </view>
+        <view class="detail-row" wx:if="{{item.endTime}}">
+          <text class="detail-label">结束时间</text>
+          <text class="detail-value">{{item.endTime}}</text>
+        </view>
+        <view class="detail-row">
+          <text class="detail-label">来访人数</text>
+          <text class="detail-value">{{item.visitorCount}}人</text>
+        </view>
+        <view class="detail-row" wx:if="{{item.carPlate}}">
+          <text class="detail-label">车牌号</text>
+          <text class="detail-value">{{item.carPlate}}</text>
+        </view>
+        <view class="detail-row">
+          <text class="detail-label">来访事由</text>
+          <text class="detail-value purpose">{{item.purpose}}</text>
+        </view>
+        <view class="detail-row" wx:if="{{item.remark}}">
+          <text class="detail-label">备注</text>
+          <text class="detail-value">{{item.remark}}</text>
+        </view>
+      </view>
+
+      <!-- 待审核操作按钮 -->
+      <view class="card-actions" wx:if="{{item.status === 'pending'}}">
+        <button class="btn-reject" bindtap="onReject" data-id="{{item.id}}">拒绝</button>
+        <button class="btn-approve" bindtap="onApprove" data-id="{{item.id}}">通过</button>
+      </view>
+    </view>
+  </block>
+
+  <view class="empty-state" wx:if="{{list.length === 0}}">暂无预约记录</view>
+
+  <!-- 快捷入口 -->
+  <view class="quick-links">
+    <view class="quick-item" bindtap="goNotifyMgr">
+      <text class="quick-icon">📢</text>
+      <text class="quick-text">通知管理</text>
+      <text class="quick-arrow">›</text>
+    </view>
+    <view class="quick-item" bindtap="goStats">
+      <text class="quick-icon">📈</text>
+      <text class="quick-text">数据统计</text>
+      <text class="quick-arrow">›</text>
+    </view>
+  </view>
+</view>
+
+<tabBar activeTab="1"></tabBar>

@@ -1,0 +1,27 @@
+<view class="page has-tabbar">
+  <block wx:for="{{list}}" wx:key="id">
+    <view class="card">
+      <view class="record-header">
+        <text class="record-company">{{item.company}}</text>
+        <text class="tag tag-{{item.status}}">{{statusMap[item.status]}}</text>
+      </view>
+      <view class="record-body">
+        <view class="info-row"><text class="label">访客：</text><text>{{item.visitorName}}</text></view>
+        <view class="info-row"><text class="label">电话：</text><text>{{item.visitorPhone}}</text></view>
+        <view class="info-row"><text class="label">事由：</text><text>{{item.purpose}}</text></view>
+        <view class="info-row"><text class="label">时间：</text><text>{{item.startTime}} - {{item.endTime}}</text></view>
+        <view class="info-row"><text class="label">人数：</text><text>{{item.visitorCount}}人</text></view>
+        <view class="info-row" wx:if="{{item.remark}}"><text class="label">备注：</text><text>{{item.remark}}</text></view>
+      </view>
+      <view class="record-actions" wx:if="{{item.status === 'pending'}}">
+        <button class="btn-reject" bindtap="onReject" data-id="{{item.id}}">拒绝</button>
+        <button class="btn-approve" bindtap="onApprove" data-id="{{item.id}}">通过</button>
+      </view>
+      <view class="greeting-area" wx:if="{{item.showGreeting && item.status === 'approved'}}">
+        <text class="greeting-text">🤖 {{item.greeting}}</text>
+      </view>
+    </view>
+  </block>
+  <view class="empty-state" wx:if="{{list.length === 0}}">暂无待审批预约</view>
+</view>
+<tabBar activeTab="1"></tabBar>

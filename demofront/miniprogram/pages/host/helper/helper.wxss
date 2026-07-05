@@ -1,0 +1,14 @@
+.page { padding-bottom: 40rpx; }
+.section-title {
+  font-size: 32rpx;
+  font-weight: 500;
+  margin-bottom: 30rpx;
+  color: #333;
+}
+.submit-area {
+  padding: 30rpx;
+}
+.picker-value {
+  color: #333;
+  font-size: 28rpx;
+}

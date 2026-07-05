@@ -1,0 +1,26 @@
+.section-title {
+  font-size: 30rpx;
+  font-weight: 500;
+  margin-bottom: 24rpx;
+  color: #333;
+}
+.textarea-field {
+  width: 100%;
+  height: 160rpx;
+  background: #f7f8fa;
+  border-radius: 12rpx;
+  padding: 20rpx 24rpx;
+  font-size: 28rpx;
+  box-sizing: border-box;
+  border: 2rpx solid #e8e8e8;
+}
+.menu-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 28rpx 0;
+  border-bottom: 2rpx solid #f0f0f0;
+}
+.menu-item:last-child { border-bottom: none; }
+.menu-text { font-size: 28rpx; color: #333; }
+.menu-arrow { font-size: 36rpx; color: #ccc; }

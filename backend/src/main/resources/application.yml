@@ -1,0 +1,58 @@
+spring:
+  application:
+    name: visitor-system
+  profiles:
+    active: dev
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: Asia/Shanghai
+  servlet:
+    multipart:
+      max-file-size: 10MB
+
+server:
+  port: 8080
+
+mybatis-plus:
+  mapper-locations: classpath:mapper/*.xml
+  type-aliases-package: com.visitor.entity
+  global-config:
+    db-config:
+      id-type: auto
+      logic-delete-field: deleted
+      logic-delete-value: 1
+      logic-not-delete-value: 0
+  configuration:
+    map-underscore-to-camel-case: true
+    # SQL调试日志（排查AI问题时注释掉，避免淹没业务日志）
+    # log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+springdoc:
+  api-docs:
+    path: /api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+
+jwt:
+  # 敏感配置通过环境变量注入，冒号后为本地开发默认值
+  secret: ${JWT_SECRET:VisitorSystemSecretKey2026ForJwtTokenGenerationMustBe256bitsLong!!}
+  expiration: 86400000
+
+# Redis 配置（AI 话术缓存，未安装 Redis 时自动内存降级）
+spring.data.redis:
+  host: ${REDIS_HOST:localhost}
+  port: ${REDIS_PORT:6379}
+  timeout: 3000ms
+  connect-timeout: 3000ms
+
+deepseek:
+  # ⚠️ 安全提醒：生产环境务必通过环境变量 DEEPSEEK_API_KEY 注入，勿将真实密钥提交到仓库
+  api-key: ${DEEPSEEK_API_KEY:sk-gYDJmAks9qE0vubymg2m923zfY87OsIlpMXCzq0hHZaORiaBz3CC3M7Q270SMC5A}
+  api-url: ${DEEPSEEK_API_URL:https://opencode.ai/zen/v1/chat/completions}
+  model: ${DEEPSEEK_MODEL:deepseek-v4-flash-free}
+  greeting:
+    timeout-seconds: ${DEEPSEEK_GREETING_TIMEOUT:30}
+
+# CORS 允许的来源，逗号分隔；生产环境应配置具体域名
+cors:
+  allowed-origins: ${CORS_ORIGINS:http://localhost:*}

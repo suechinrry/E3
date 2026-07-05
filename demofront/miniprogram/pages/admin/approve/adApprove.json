@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "审核管理",
+  "usingComponents": {
+    "tabBar": "/components/tabBar/tabBar"
+  }
+}

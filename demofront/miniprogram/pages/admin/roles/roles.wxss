@@ -1,0 +1,78 @@
+/* 角色卡片 */
+.role-card {
+  margin: 16rpx 24rpx;
+  background: #fff;
+  border-radius: 16rpx;
+  overflow: hidden;
+  box-shadow: 0 2rpx 12rpx rgba(0,0,0,0.04);
+}
+
+/* 头部 */
+.role-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 28rpx 24rpx;
+}
+.role-left {
+  display: flex;
+  align-items: center;
+  gap: 18rpx;
+}
+.role-icon {
+  width: 72rpx;
+  height: 72rpx;
+  border-radius: 18rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 32rpx;
+  flex-shrink: 0;
+}
+.role-info {
+  display: flex;
+  flex-direction: column;
+}
+.role-name {
+  font-size: 30rpx;
+  font-weight: 600;
+  color: #2c3e50;
+}
+.role-desc {
+  font-size: 23rpx;
+  color: #a0a8b4;
+  margin-top: 4rpx;
+}
+
+/* 展开箭头 */
+.expand-arrow {
+  font-size: 22rpx;
+  color: #ccc;
+  padding: 10rpx;
+}
+
+/* 权限范围面板 */
+.perm-panel {
+  border-top: 2rpx solid #f0f2f5;
+  padding: 18rpx 24rpx 24rpx;
+  background: #fafbfc;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12rpx;
+}
+.route-item {
+  display: flex;
+  align-items: center;
+  gap: 8rpx;
+  background: #fff;
+  border-radius: 10rpx;
+  padding: 12rpx 18rpx;
+  box-shadow: 0 1rpx 4rpx rgba(0,0,0,0.04);
+}
+.route-icon {
+  font-size: 24rpx;
+}
+.route-label {
+  font-size: 25rpx;
+  color: #555;
+}
